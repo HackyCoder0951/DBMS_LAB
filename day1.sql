@@ -47,3 +47,13 @@ CREATE TABLE MCA_Result (
     result varchar(100) NOT null,
     FOREIGN KEY (std_id) REFERENCES std_details(std_id)
 );
+
+
+insert into std_details (sr_no,std_id,department,programs,sem,total_credits,received_credits,result) values (01,'kishan','lal','sharma','udaipur',1231231234,'pass'),
+(02,'shiv','kumar','sharma','bassi',2123432242,'pass'),
+(03,'vishnu','kumar','jat','bhilwara',4534543242,'pass'),
+(04,'prakash','','jat','jaipur',110,'pass'),
+(05,'satish','kumar','sharma','rajsamand',112,'pass'),
+(06,'gopal','krishna','sharma',,115,'pass');
+
+ALTER TABLE `std_details` ADD CONSTRAINT `std_results` FOREIGN KEY (`std_id`) REFERENCES `mca_result`(`std_id`) ON DELETE CASCADE ON UPDATE CASCADE;
