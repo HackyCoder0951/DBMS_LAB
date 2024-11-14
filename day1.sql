@@ -1,59 +1,38 @@
-create DATABASE jignesh;  // to create a new db
+CREATE DATABASE vitc;
 
-use jignesh;  // to select db for operations
+USE vitc;
 
-create table test614 (
-	id int not null,
-    f_name varchar(100) not null,
-   	m_name varchar(100) not null,
-    l_name varchar(100) not null,
-    place varchar(100) not null,
-    m_no int not null,
-    education varchar(100) not null
-); // to create a table named test614
-
-insert into test614 (id,f_name,m_name,l_name,place,m_no,education) values (01,'kishan','lal','sharma','udaipur',1231231234,'graduate'), // insert values in table
-(02,'shiv','kumar','sharma','bassi',2123432242,'12th pass'),
-(03,'vishnu','kumar','jat','bhilwara',4534543242,'10th pass'),
-(04,'prakash','','jat','jaipur',5683463466,'10th pass'),
-(05,'satish','kumar','sharma','rajsamand',3546454745,'12th pass'),
-(06,'gopal','krishna','sharma','kapasan',2153453454,'graduate');
-
-alter table test614 RENAME to std_details;  // to rename selected table test614 to std_details
-
-ALTER TABLE std_details ADD std_id int NOT null;
-
-ALTER TABLE std_details CHANGE id sr_no INT(11) NOT NULL;
-
-ALTER TABLE std_details DROP sr_no;
-
-ALTER TABLE std_details ADD sr_no int NOT null AUTO_INCREMENT PRIMARY KEY;
-
-ALTER TABLE `std_details` CHANGE `std_id` `std_id` VARCHAR(11) NOT NULL;
-
-UPDATE `std_details` SET `std_id` = 'MCA06' WHERE `std_details`.`sr_no` = 6;
-
-ALTER TABLE std_details ADD UNIQUE (std_id)
-
-
-CREATE TABLE MCA_Result (
-    sr_no int NOT null AUTO_INCREMENT PRIMARY KEY,
-    std_id int,
-    department varchar(200) NOT null,
-    programs varchar(200) NOT null,
-    sem varchar(100) NOT null,
-    total_credits int NOT null,
-    received_credits int NOT null,
-    result varchar(100) NOT null,
-    FOREIGN KEY (std_id) REFERENCES std_details(std_id)
+CREATE	TABLE empdetails (
+	sr_no int(12) NOT null AUTO_INCREMENT,
+    emp_id int(11) NOT null PRIMARY KEY,
+    emp_name varchar(150) NOT null,
+    emp_des varchar(150) NOT null,
+  	emp_mobile int(15) NOT null,
+    emp_dept varchar(100) NOT null,
+    emp_location varchar(100) NOT null
 );
 
+INSERT INTO empdetails (emp_id,emp_name,emp_des,emp_mobile,emp_dept,emp_location) VALUES 
+(2021,'kishan lal','Sr. Dev',1231231234,'Devlopment','udaipur'),
+(2022,'shiv kumar','Jr. Dev',2123432242,'Devlopment','bassi'),
+(2023,'vishnu kumar','DevOps Er.',4534543242,'Devlopment','bhilwara'),
+(2024,'prakash jat','Cloud Er.',5683463466,'Devlopment','jaipur'),
+(2025,'satish kumar','Accountant',3546454745,'Finance','rajsamand'),
+(2026,'gopal krishna','Sys Admin',2153453454,'Administration','kapasan');
 
-insert into std_details (sr_no,std_id,department,programs,sem,total_credits,received_credits,result) values (01,'kishan','lal','sharma','udaipur',1231231234,'pass'),
-(02,'shiv','kumar','sharma','bassi',2123432242,'pass'),
-(03,'vishnu','kumar','jat','bhilwara',4534543242,'pass'),
-(04,'prakash','','jat','jaipur',110,'pass'),
-(05,'satish','kumar','sharma','rajsamand',112,'pass'),
-(06,'gopal','krishna','sharma',,115,'pass');
+CREATE TABLE empsalary (
+	sr_no int(12) NOT null AUTO_INCREMENT,
+    emp_id int(11) NOT null PRIMARY KEY,
+    emp_dept varchar(150) NOT null,
+    emp_sal varchar(150) NOT null,
+    emp_payscale varchar(4) NOT null,
+    FOREIGN KEY(emp_id) REFERENCES empdetails(emp_id)
+);
 
-ALTER TABLE `std_details` ADD CONSTRAINT `std_results` FOREIGN KEY (`std_id`) REFERENCES `mca_result`(`std_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+INSERT INTO empsalary (emp_id,emp_dept,emp_sal,emp_payscale) VALUES 
+(2021,'Devlopment','75000','6th'),
+(2022,'Devlopment','4000','4th'),
+(2023,'Devlopment','85000','6th'),
+(2024,'Devlopment','64500','6th'),
+(2025,'Finance','46500','5th'),
+(2026,'Administration','72500','7th');
