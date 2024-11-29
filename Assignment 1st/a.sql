@@ -57,56 +57,93 @@ ALTER TABLE `empsalary`
   REFERENCES `empdetails`(`EmpID`) 
   ON DELETE CASCADE ON UPDATE CASCADE;
 
-Q1 Solution - 
-SELECT ed.* FROM employeedetails ed LEFT JOIN employeesalary es ON ed.EmpId=es.EmpId WHERE es.EmpId IS NULL;
+Q-1.1 -- SQL Query to fetch records that are present in one table but not in another table ?
 
-//****QUESTION 2****//
-SELECT EmpId, FullName FROM employeedetails WHERE EmpId NOT IN (SELECT EmpId FROM employeesalary);
-
-//****QUESTION 3****// 
-	//WAY I
-SELECT FullName, DateOfJoining FROM employeedetails WHERE DateOfJoining BETWEEN '2020-01-01' AND '2020-12-31';
-	
-	//WAY II
-SELECT FullName, DateOfJoining FROM employeedetails WHERE YEAR(DateOfJoining) = 2020;
-
-	//WAY III
-SELECT FullName, DateOfJoining FROM employeedetails WHERE YEAR(DateOfJoining) LIKE '2020%';
-
-//****QUESTION 4****//
-
-SELECT *FROM employeedetails WHERE City LIKE '%i';
-
-//****QUESTION 5****//
-
-WITH RowNumbers AS(SELECT *, ROW_NUMBER() OVER (ORDER BY EmpId, Project) AS RowNum FROM employeesalary)SELECT *FROM RowNumbers WHERE RowNum%2=1;
+SELECT empdetails.* FROM empdetails
+LEFT JOIN empsalary
+USING (empid) WHERE empsalary.empid is null;
 
 
-//****QUESTION 6****//
+Q-1.2 -- SQL query to fetch all the employees who are not working on any project ?
 
-	//WAY I - BY USING ROW_NUMBER() -> DEFINES UNIQUE SEQUENTIAL RANK TO EACH SALARY, ORDERED IN DESC (HGHTEST GET RANK1, SECOND HIGHTEST GET RANK 2)
-
-WITH ThirdHSalary AS (SELECT salary, ROW_NUMBER() OVER (ORDER BY salary DESC) AS trank FROM employeesalary) SELECT salary FROM ThirdHSalary WHERE trank=3;
-
-	//WAY II - BY USING DENSE_RANK() -> ASSIGN SAME RANK TO DUPLICATE SALARY VALUES. [2 EMP WITH HIGHEST SALARY BOTH WILL GET RANK1, AND SO ON]
-
-WITH ThirdHSalary AS (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS trank FROM employeesalary) SELECT salary FROM ThirdHSalary WHERE trank=3;
+SELECT empId,EmpName FROM empdetails
+WHERE EmpId NOT IN (SELECT EmpId FROM empsalary);
 
 
-//****QUESTION 7****//
-SELECT FullName, Project FROM employeedetails INNER JOIN employeesalary ON employeesalary.EmpId=employeedetails.EmpId WHERE employeesalary.Project!='P1';
+Q-1.3 -- SQL query to fetch all the Employees from empdetails who joined in the Year 2020 ?
+
+SELECT EmpName,DateOfJoining FROM empdetails
+WHERE DateOfJoining BETWEEN '2020-01-01' AND '2020-12-31';
+
+SELECT EmpName,DateOfJoining FROM empdetails
+WHERE year(DateOfJoining) = 2020;
+
+SELECT EmpName,DateOfJoining FROM empdetails
+WHERE year(DateOfJoining) LIKE '2020%';
 
 
-//****QUESTION 8****//
+Q-1.4 -- Write an SQL query to fetch records from empdetails where city ends with character
+‘i’ ?
 
-SELECT EmpId FROM employeedetails UNION SELECT EmpId FROM employeesalary ORDER BY EmpId ASC;
-
-//****QUESTION 9****//
-	//WAY I
-SELECT EmpId, ManagerId FROM employeedetails;
-	//WAY II
-SELECT concat(EmpId, "___",ManagerId) AS "EmpId & ManagerId Together" FROM employeedetails;
+SELECT * FROM empdetails
+WHERE City LIKE '%i';
 
 
-//****QUESTION 10****//
-SELECT Project, COUNT(Project) as No_Emp_in_each_Project  FROM employeesalary GROUP BY Project ORDER BY COUNT(employeesalary.Project) DESC;
+Q-1.5 -- Write an SQL query to fetch only odd rows from the table ?
+
+-> If there is a s.no. column:-(For Employee Details Table)
+SELECT * FROM empdetails
+WHERE `S.no.` % 2 != 0;
+
+-> If there is no s.no. column:-(For Employee Salary Table)
+WITH NumberedRows AS (
+ SELECT e.*,ROW_NUMBER() OVER (ORDER BY EmpId,project) AS RowNum
+ FROM empsalary e
+)
+SELECT EmpId,Salary,Project,variable FROM NumberedRows
+WHERE RowNum % 2 != 0;
+
+
+Q-1.6 -- Sql Query to find 3rd highest salary from a table without using the TOP / LIMIT keyword ?
+
+SELECT Salary
+FROM empsalary Emp1
+WHERE 2 = (
+ SELECT COUNT( DISTINCT ( Emp2.Salary ) )
+ FROM empsalary Emp2
+ WHERE Emp2.Salary > Emp1.Salary
+ );
+
+
+Q-1.7 -- Write an SQL query to fetch all those employees who work on Project other than P1 ?
+
+SELECT EmpName,Project FROM empdetails
+INNER JOIN empsalary ON empsalary.EmpId = empdetails.EmpId
+WHERE empsalary.Project != 'P1';
+
+
+Q-1.8 -- Write an SQL query to fetch all the EmpIds which are present in either of the tables –
+‘empdetails’ and ‘empsalary’ ?
+
+SELECT EmpId FROM empsalary
+UNION
+SELECT EmpId FROM empdetails
+ORDER BY EmpId ASC;
+
+
+Q-1.9 -- Write an SQL query to display both the EmpId and ManagerId together ?
+
+SELECT EmpId , ManagerId
+FROM empdetails;
+
+SELECT concat(EmpId,"---",ManagerId) AS "EmpId & ManagerId Together"
+FROM empdetails;
+
+
+Q-1.10 -- Write an SQL query to fetch project-wise count of employees sorted by project’s count in
+descending order ?
+
+SELECT PROJECT,COUNT(project) AS EMPLOYEES
+FROM empsalary
+GROUP BY Project
+ORDER BY COUNT(empsalary.project) DESC;
