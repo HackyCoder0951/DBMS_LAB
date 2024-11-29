@@ -57,20 +57,20 @@ ALTER TABLE `empsalary`
   REFERENCES `empdetails`(`EmpID`) 
   ON DELETE CASCADE ON UPDATE CASCADE;
 
-Q-1.1 -- SQL Query to fetch records that are present in one table but not in another table ?
+Q1 - 'SQL Query to fetch records that are present in one table but not in another table ?'
 
 SELECT empdetails.* FROM empdetails
 LEFT JOIN empsalary
 USING (empid) WHERE empsalary.empid is null;
 
 
-Q-1.2 -- SQL query to fetch all the employees who are not working on any project ?
+Q2 'SQL query to fetch all the employees who are not working on any project ?'
 
-SELECT empId,EmpName FROM empdetails
+SELECT * FROM empdetails
 WHERE EmpId NOT IN (SELECT EmpId FROM empsalary);
 
 
-Q-1.3 -- SQL query to fetch all the Employees from empdetails who joined in the Year 2020 ?
+Q3 'SQL query to fetch all the Employees from empdetails who joined in the Year 2020 '
 
 SELECT EmpName,DateOfJoining FROM empdetails
 WHERE DateOfJoining BETWEEN '2020-01-01' AND '2020-12-31';
@@ -82,14 +82,12 @@ SELECT EmpName,DateOfJoining FROM empdetails
 WHERE year(DateOfJoining) LIKE '2020%';
 
 
-Q-1.4 -- Write an SQL query to fetch records from empdetails where city ends with character
-‘i’ ?
+Q4 'Write an SQL query to fetch records from empdetails where city ends with character ‘i’ ?'
 
-SELECT * FROM empdetails
-WHERE City LIKE '%i';
+SELECT * FROM empdetails WHERE City LIKE '%i';
 
 
-Q-1.5 -- Write an SQL query to fetch only odd rows from the table ?
+Q5 'Write an SQL query to fetch only odd rows from the table ?'
 
 -> If there is a s.no. column:-(For Employee Details Table)
 SELECT * FROM empdetails
@@ -104,7 +102,7 @@ SELECT EmpId,Salary,Project,variable FROM NumberedRows
 WHERE RowNum % 2 != 0;
 
 
-Q-1.6 -- Sql Query to find 3rd highest salary from a table without using the TOP / LIMIT keyword ?
+Q6 'Sql Query to find 3rd highest salary from a table without using the TOP / LIMIT keyword ?'
 
 SELECT Salary
 FROM empsalary Emp1
@@ -115,15 +113,14 @@ WHERE 2 = (
  );
 
 
-Q-1.7 -- Write an SQL query to fetch all those employees who work on Project other than P1 ?
+Q7 'Write an SQL query to fetch all those employees who work on Project other than P1 ?'
 
 SELECT EmpName,Project FROM empdetails
 INNER JOIN empsalary ON empsalary.EmpId = empdetails.EmpId
 WHERE empsalary.Project != 'P1';
 
 
-Q-1.8 -- Write an SQL query to fetch all the EmpIds which are present in either of the tables –
-‘empdetails’ and ‘empsalary’ ?
+Q8 'Write an SQL query to fetch all the EmpIds which are present in either of the tables – ‘empdetails’ and ‘empsalary’ ?'
 
 SELECT EmpId FROM empsalary
 UNION
@@ -131,7 +128,7 @@ SELECT EmpId FROM empdetails
 ORDER BY EmpId ASC;
 
 
-Q-1.9 -- Write an SQL query to display both the EmpId and ManagerId together ?
+Q9 'Write an SQL query to display both the EmpId and ManagerId together ?'
 
 SELECT EmpId , ManagerId
 FROM empdetails;
@@ -140,8 +137,8 @@ SELECT concat(EmpId,"---",ManagerId) AS "EmpId & ManagerId Together"
 FROM empdetails;
 
 
-Q-1.10 -- Write an SQL query to fetch project-wise count of employees sorted by project’s count in
-descending order ?
+Q10 'Write an SQL query to fetch project-wise count of employees sorted by 
+    a). project’s count in descending order ?'
 
 SELECT PROJECT,COUNT(project) AS EMPLOYEES
 FROM empsalary
