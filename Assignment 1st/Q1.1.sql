@@ -16,7 +16,7 @@ ALTER TABLE empdetails ADD PRIMARY KEY(EmpID);
 
 CREATE TABLE assign1.empsalary (
   EmpID INT(10) NULL DEFAULT NULL , 
-  Project VARCHAR(50) NOT NULL , 
+  Project VARCHAR(50) DEFAULT NULL , 
   Salary INT(10) NOT NULL , 
   Variable INT(10) NOT NULL 
 ) ENGINE = InnoDB;
