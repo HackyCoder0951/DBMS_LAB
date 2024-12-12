@@ -1,6 +1,6 @@
 -- Creation of EmpDetails Table
 -- Table Name - 'EmpDetails'
-CREATE TABLE assign1.empdetails (
+CREATE TABLE empdetails (
   EmpID INT(10) NULL DEFAULT NULL , 
   EmpName VARCHAR(50) NOT NULL , 
   ManagerID INT NULL DEFAULT NULL , 
@@ -14,7 +14,7 @@ ALTER TABLE empdetails ADD PRIMARY KEY(EmpID);
 -- Creation of EmpSalary Table
 -- Table Name - 'EmpSalary'
 
-CREATE TABLE assign1.empsalary (
+CREATE TABLE empsalary (
   EmpID INT(10) NULL DEFAULT NULL , 
   Project VARCHAR(50) NOT NULL , 
   Salary INT(10) NOT NULL , 
