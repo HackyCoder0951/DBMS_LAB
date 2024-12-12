@@ -1,5 +1,8 @@
 -- Q-2.1 Find the total grade points earned by the student with ID '12345', across all courses taken by the student ?
-SELECT ID,tot_cred FROM `student` WHERE ID = 'S101';
+
+SELECT ID,tot_cred AS GP 
+       FROM `student` 
+       WHERE ID = 'S101';
 
 -- Q-2.2 Find the grade point average (GPA) for the above student, that is, the total grade points divided by the total credits for the associated courses ?
 
@@ -16,11 +19,9 @@ LEFT JOIN course crs ON tk.course_id = crs.course_id
 GROUP BY std.ID, std.Name
 HAVING std.ID = 'S101';
 
-
 -- Q-2.3 -- Find the ID and the grade-point average of each student ?
 
 SELECT ID, AVG(points) AS GPA
   FROM `takes` 
     JOIN grade_points AS GP ON takes.grade = GP.grade
-  WHERE ID='S101'
-
+  WHERE ID='S101';
