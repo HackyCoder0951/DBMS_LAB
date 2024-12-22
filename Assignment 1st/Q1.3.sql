@@ -1,7 +1,7 @@
 --
 -- Database: `mca_assign3`
 --
-
+CREATE DATABASE mca_assign3;
 --
 -- Table structure for table `account`
 --
@@ -59,4 +59,3 @@ CREATE TABLE `loan` (
   `branch_name` varchar(150) DEFAULT NULL,
   `amount` float(10,2) DEFAULT NULL
 );
-COMMIT;
