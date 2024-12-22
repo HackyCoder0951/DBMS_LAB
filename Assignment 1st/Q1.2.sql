@@ -488,4 +488,4 @@ Q-2.3 -- Find the ID and the grade-point average of each student ?
 SELECT ID, AVG(points) AS GPA
   FROM `takes` 
     JOIN grade_points AS GP ON takes.grade = GP.grade
-  WHERE ID='S101';
+  GROUP BY ID;
