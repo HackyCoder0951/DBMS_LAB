@@ -31,7 +31,7 @@ INSERT INTO mca_assign1.empdetails
 
 CREATE TABLE mca_assign1.empsalary (
   `EmpID` int(10) NOT NULL,
-  `Project` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `Project` varchar(50) DEFAULT NULL,
   `Salary` int(10) NOT NULL,
   `Variable` int(10) NOT NULL
 );
@@ -42,12 +42,11 @@ ALTER TABLE mca_assign1.empsalary
 
 -- Adding Foreign Key using Constraints into EmpSalary
 ALTER TABLE mca_assign1.empsalary 
-  ADD CONSTRAINT `con1` 
-  FOREIGN KEY (`EmpID`) 
+  ADD CONSTRAINT `con1` FOREIGN KEY (`EmpID`) 
   REFERENCES mca_assign1.empdetails(`EmpID`) 
   ON DELETE CASCADE ON UPDATE CASCADE;
 
--- Inserting Data into EmpSlary
+-- Inserting Data into EmpSalary
 INSERT INTO mca_assign1.empsalary 
     (EmpID,Project,Salary,Variable) 
   VALUES 
@@ -62,17 +61,15 @@ Q1 - 'SQL Query to fetch records that are present in one table but not in anothe
 
 SELECT empdetails.* FROM empdetails
   LEFT JOIN empsalary
-    USING (empid) WHERE empsalary.empid is null;
+    USING (EmpID) WHERE empsalary.empid IS NULL;
 
 SELECT * FROM empdetails
-WHERE EmpId NOT IN (SELECT EmpId FROM empsalary);
+WHERE EmpID NOT IN (SELECT EmpId FROM empsalary);
 
 
 Q2 'SQL query to fetch all the employees who are not working on any project ?'
 
 SELECT * FROM empsalary WHERE Project IS NULL;
-
-SELECT * FROM empdetails INNER JOIN empsalary ON empsalary.EmpId = empdetails.EmpId WHERE empsalary.Project IS NULL;
 
 
 Q3 'SQL query to fetch all the Employees from empdetails who joined in the Year 2020 '
