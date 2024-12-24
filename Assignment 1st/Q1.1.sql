@@ -1,4 +1,9 @@
+CREATE DATABASE mca_assign1;
+
+USE mca_assign1;
+
 -- Creation of EmpDetails Table
+
 -- Table Name - 'EmpDetails'
 CREATE TABLE empdetails (
   EmpID INT(10) NULL DEFAULT NULL , 
@@ -6,12 +11,13 @@ CREATE TABLE empdetails (
   ManagerID INT NULL DEFAULT NULL , 
   DOJ DATE NOT NULL , 
   City VARCHAR(50) NOT NULL 
-) ENGINE = InnoDB;
+);
 
 -- Adding Primary Key to EmpDetails
 ALTER TABLE empdetails ADD PRIMARY KEY(EmpID);
 
 -- Creation of EmpSalary Table
+
 -- Table Name - 'EmpSalary'
 
 CREATE TABLE empsalary (
@@ -19,9 +25,7 @@ CREATE TABLE empsalary (
   Project VARCHAR(50) NOT NULL , 
   Salary INT(10) NOT NULL , 
   Variable INT(10) NOT NULL 
-) ENGINE = InnoDB;
-
-ALTER TABLE `empsalary` CHANGE `Project` `Project` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL;
+);
 
 -- Adding Primary Key to EmpSalary
 ALTER TABLE empsalary ADD PRIMARY KEY(EmpID);
