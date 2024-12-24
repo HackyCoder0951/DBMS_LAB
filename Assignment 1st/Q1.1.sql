@@ -1,11 +1,11 @@
-CREATE DATABASE mca_assign1;
+-- create database `mca_assign1`
 
-USE mca_assign1;
+CREATE DATABASE mca_assign1;
 
 -- Creation of EmpDetails Table
 
 -- Table Name - 'EmpDetails'
-CREATE TABLE empdetails (
+CREATE TABLE mca_assign1.empdetails (
   EmpID INT(10) NULL DEFAULT NULL , 
   EmpName VARCHAR(50) NOT NULL , 
   ManagerID INT NULL DEFAULT NULL , 
@@ -14,13 +14,13 @@ CREATE TABLE empdetails (
 );
 
 -- Adding Primary Key to EmpDetails
-ALTER TABLE empdetails ADD PRIMARY KEY(EmpID);
+ALTER TABLE mca_assign1.empdetails ADD PRIMARY KEY(EmpID);
 
 -- Creation of EmpSalary Table
 
 -- Table Name - 'EmpSalary'
 
-CREATE TABLE empsalary (
+CREATE TABLE mca_assign1.empsalary (
   EmpID INT(10) NULL DEFAULT NULL , 
   Project VARCHAR(50) NOT NULL , 
   Salary INT(10) NOT NULL , 
@@ -28,10 +28,10 @@ CREATE TABLE empsalary (
 );
 
 -- Adding Primary Key to EmpSalary
-ALTER TABLE empsalary ADD PRIMARY KEY(EmpID);
+ALTER TABLE mca_assign1.empsalary ADD PRIMARY KEY(EmpID);
 
 -- Inserting Data into EmpDetails
-INSERT INTO empdetails (EmpID,EmpName,ManagerID,DOJ,City) 
+INSERT INTO mca_assign1.empdetails (EmpID,EmpName,ManagerID,DOJ,City) 
   VALUES (111, 'Amit sharma', 231, '2014-01-31', 'Banglor'), 
   (333, 'Rajesh Vyas', 654, '2020-11-27', 'Mumbai'), 
   (555, 'Kuldeep Tondon', 543, '2016-11-27', 'New Delhi'),
@@ -44,7 +44,7 @@ INSERT INTO empdetails (EmpID,EmpName,ManagerID,DOJ,City)
   (118,'Jatin Joshi',321,'2012-06-26','Chittorgarh');
 
 -- Inserting Data into EmpSlary
-INSERT INTO empsalary (EmpID,Project,Salary,Variable) 
+INSERT INTO mca_assign1.empsalary (EmpID,Project,Salary,Variable) 
   VALUES (111, 'P1', 8000, 500),
   (112, 'P1', 19000, 800),
   (113, 'P1', 16000, 900),
@@ -57,10 +57,10 @@ INSERT INTO empsalary (EmpID,Project,Salary,Variable)
   (555, 'P1', 12000, 0);
 
 -- Adding Foreign Key using Constraints into EmpSalary
-ALTER TABLE `empsalary` 
+ALTER TABLE mca_assign1.`empsalary` 
   ADD CONSTRAINT `con1` 
   FOREIGN KEY (`EmpID`) 
-  REFERENCES `empdetails`(`EmpID`) 
+  REFERENCES mca_assign1.`empdetails`(`EmpID`) 
   ON DELETE CASCADE ON UPDATE CASCADE;
 
 Q1 - 'SQL Query to fetch records that are present in one table but not in another table ?'
