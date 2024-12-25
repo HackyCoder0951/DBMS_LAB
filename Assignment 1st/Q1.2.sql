@@ -522,26 +522,71 @@ SELECT ID, AVG(points) AS GPA
 
 Q-2.4 'Increase the salary of instructor in the Comp. Sci. department where salary is less then 5000 rs by 10% ?'
 
+UPDATE `instructor` SET `salary`= (salary+(salary*0.1))
+WHERE dept_name = 'Computer Science' AND salary < 5000;
+
 Q-2.5 'Delete all courses that have never been offered (i.e., do not occur in the section relation) ?'
+
+Delete FROM course
+WHERE course.course_id IN (SELECT course.course_id FROM course LEFT JOIN section ON course.course_id =
+section.course_id WHERE section.course_id is NULL);
 
 Q-2.6 'Insert every student whose total credit attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
 
+INSERT INTO `instructor`(`i_id`, `Name`, `dept_name`, `salary`)
+SELECT `s_id`, `Name`, `dept_name`,'10000'
+FROM `student`
+WHERE tot_cred > 100;
+
 Q-2.7 'Find the titles of courses in the Comp. Sci. department that have 3 credits ?'
+
+SELECT title,credits FROM course
+WHERE dept_name = 'Computer Science' AND credits = 3;
 
 Q-2.8 'Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result ?'
 
+SELECT s_id,student.Name AS Student_Name,instructor.Name AS Instructor_Name FROM student LEFT JOIN
+instructor ON student.dept_name = instructor.dept_name
+WHERE instructor.name = 'Einstein';
+
 Q-2.9 'Find the highest salary of any instructor ?'
+
+SELECT MAX(salary) AS "Highest Salary" FROM instructor;
 
 Q-2.10 'Find all instructors earning the highest salary (there may be more than one with the same salary) ?'
 
-Q-2.11 'Find the enrollment of each section that was o ered in Fall 2017 ?'
+SELECT name,salary FROM instructor WHERE salary = (SELECT MAX(salary) FROM instructor);
+
+Q-2.11 'Find the enrollment of each section that was offered in Fall 2017 ?'
+
+SELECT sec_id,`year`, COUNT(s_id) AS enrollment
+FROM takes
+WHERE year = 2017
+GROUP BY sec_id;
 
 Q-2.12 'Find the maximum enrollment, across all sections, in Fall 2017 ?'
 
+SELECT MAX(enrollment_count) AS max_enrollment
+FROM (
+  SELECT COUNT(s_id) AS enrollment_count
+  FROM takes
+  WHERE year = 2017
+  GROUP BY sec_id
+) AS section_enrollments;
+
 Q-2.13 'Find the sections that had the maximum enrollment in Fall 2017 ?'
+
+SELECT course_id, sec_id, semester, year, COUNT(s_id) AS enrollment
+FROM takes
+WHERE year = 2017
+GROUP BY course_id, sec_id, semester, year
+HAVING COUNT(s_id) = (SELECT MAX(enrollment_count)
+  FROM (SELECT course_id, sec_id, semester, year, COUNT(s_id) AS enrollment_count
+    FROM takes
+    WHERE year = 2017
+    GROUP BY course_id, sec_id, semester, year) AS max_enrollment);
 
 Q-2.14 'Increase the salary of each instructor in the Comp. Sci. department by 10% ?'
 
-Q-2.15 'Delete all courses that have never been o ered (i.e., do not occur in the section relation) ?'
-
-Q-2.16 'Insert every student whose tot cred attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
+UPDATE `instructor` SET `salary`= Salary * 1.1
+WHERE dept_name = 'Computer Science';

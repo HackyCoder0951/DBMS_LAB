@@ -66,14 +66,12 @@ SELECT empdetails.* FROM empdetails
 SELECT * FROM empdetails
 WHERE EmpID NOT IN (SELECT EmpId FROM empsalary);
 
-
 Q-1.2 'SQL query to fetch all the employees who are not working on any project ?'
 
 SELECT * FROM empsalary WHERE Project IS NULL;
 
 SELECT EmpID,EmpName FROM empdetails
 WHERE EmpId NOT IN (SELECT EmpId FROM empsalary);
-
 
 Q-1.3 'SQL query to fetch all the Employees from empdetails who joined in the Year 2020 ?'
 
@@ -83,11 +81,9 @@ SELECT * FROM empdetails WHERE year(DOJ) = 2020;
 
 SELECT * FROM empdetails WHERE year(DOJ) LIKE '2020%';
 
-
 Q-1.4 'Write an SQL query to fetch records from empdetails where city ends with character ‘i’ ?'
 
 SELECT EmpID,EmpName,City FROM empdetails WHERE City LIKE '%i';
-
 
 Q-1.5 'Write an SQL query to fetch only odd rows from the table ?'
   
@@ -97,11 +93,16 @@ SELECT * FROM empdetails WHERE MOD(EmpID,2)!=0;
 
 Q-1.6 'Sql Query to find 3rd highest salary from a table without using the TOP / LIMIT keyword ?'
 
-SELECT EmpID,Salary FROM empsalary Emp1 WHERE 2 = ( SELECT COUNT(DISTINCT Emp2.Salary) FROM empsalary Emp2 WHERE Emp2.Salary > Emp1.Salary);
+SELECT EmpID,Salary FROM empsalary Emp1 WHERE 2 = ( 
+  SELECT COUNT(DISTINCT Emp2.Salary) 
+  FROM empsalary Emp2 WHERE Emp2.Salary > Emp1.Salary
+  );
 
 Q-1.7 'Write an SQL query to fetch all those employees who work on Project other than P1 ?'
 
-SELECT empdetails.EmpID,EmpName,Project FROM empdetails INNER JOIN empsalary ON empsalary.EmpId = empdetails.EmpId WHERE empsalary.Project != 'P1';
+SELECT empdetails.EmpID,EmpName,Project FROM empdetails 
+  INNER JOIN empsalary ON empsalary.EmpId = empdetails.EmpId 
+  WHERE empsalary.Project != 'P1';
 
 SELECT * FROM empsalary WHERE NOT project = 'P1';
 

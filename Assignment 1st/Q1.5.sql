@@ -190,4 +190,12 @@ VALUES
 
 Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
 
+SELECT COUNT(driver_id) AS 'Total Number of People'
+FROM ((`participated` LEFT JOIN `owns` USING (`driver_id`)) LEFT JOIN `accident` USING(`report_number`))
+WHERE `Year` = 2017;
+
 Q-5.2 'Delete all year-2010 cars belonging to the person whose ID is 12345 ?'
+
+DELETE car FROM car
+JOIN owns ON car.license_plate = owns.license_plate
+WHERE `YEAR`= 2010 AND driver_id = 12345;

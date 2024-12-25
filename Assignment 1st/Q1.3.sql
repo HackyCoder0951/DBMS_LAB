@@ -226,6 +226,24 @@ VALUES
 
 Q-3.1 'Find the ID of each customer of the bank who has an account but not a loan ?'
 
+SELECT depositor.customer_id FROM depositor
+LEFT JOIN borrower ON depositor.Customer_id = borrower.Customer_id
+WHERE borrower.Customer_id is NULL;
+
+SELECT customer_id FROM depositor
+WHERE customer_id NOT IN ( SELECT Customer_id FROM borrower );
+
 Q-3.2 'Find the ID of each customer who lives on the same street and in the same city as customer 12345 ?'
 
-Q-3.3 'Find the name of each branch that has at least one customer who has an account in the bank and who lives in “Harrison”'
+SELECT customer_id
+FROM customer
+WHERE customer_street = (SELECT customer_street FROM customer WHERE customer_id = '12345')
+AND customer_city = (SELECT customer_city FROM customer WHERE customer_id = '12345')
+AND customer_id != '12345';
+
+Q-3.3 'Find the name of each branch that has at least one customer who has an account in the bank and who lives in “Harrison” ?'
+
+SELECT account.branch_name FROM
+((depositor LEFT JOIN customer ON depositor.Customer_id = customer.Customer_id)
+LEFT JOIN account ON depositor.account_number = account.account_number)
+WHERE customer_city = 'Harrison';

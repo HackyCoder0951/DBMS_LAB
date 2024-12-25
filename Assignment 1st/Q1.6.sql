@@ -151,14 +151,43 @@ VALUES
 
 Q-6.1 'Find the ID, name, and city of residence of each employee who works for “First Bank Corporation” ?'
 
+SELECT employee.emp_id,Person_name,city
+FROM employee JOIN works ON employee.emp_id = works.emp_id
+WHERE company_name = 'First bank Company';
+
 Q-6.2 'Find the ID, name, and city of residence of each employee who works for “First Bank Corporation” and earns more than $10000 ?'
+
+SELECT employee.emp_id,Person_name,city
+FROM employee JOIN works ON employee.emp_id = works.emp_id
+WHERE company_name = 'First bank company' AND salary > 10000;
 
 Q-6.3 'Find the ID of each employee who does not work for “First Bank Corporation” ?'
 
+SELECT employee.emp_id,Person_name,city
+FROM employee JOIN works ON employee.emp_id = works.emp_id
+WHERE company_name = 'First bank company' AND salary > 10000;
+
 Q-6.4 'Find the ID of each employee who earns more than every employee of “Small Bank Corporation” ?'
+
+SELECT employee.emp_id
+FROM employee JOIN works ON employee.emp_id = works.emp_id
+WHERE Salary > (SELECT MAX(salary) FROM works WHERE company_name = 'Small Bank Company');
 
 Q-6.5 'Assume that companies may be located in several cities. Find the name of each company that is located in every city in which “Small Bank Corporation” is located ?'
 
+SELECT DISTINCT company_name FROM company
+WHERE city IN ( SELECT city FROM company WHERE company_name = 'Small Bank Company') AND
+company_name != 'Small Bank Company';
+
 Q-6.6 'Find the name of the company that has the most employees (or companies, in the case where there is a tie for the most) ?'
 
+SELECT company_name, COUNT(emp_id) AS num_of_employees
+FROM works
+GROUP BY company_name
+HAVING COUNT(emp_id) = (SELECT MAX(employee_count) FROM (SELECT COUNT(emp_id) AS
+employee_count FROM works GROUP BY company_name) AS employee_counts);
+
 Q-6.7 ' Find the name of each company whose employees earn a higher salary, on average, than the average salary at “First Bank Corporation” ?'
+
+SELECT company_name FROM works GROUP BY company_name Having Avg(salary) > (SELECT avg(salary) FROM
+works WHERE company_name = 'First Bank Company') AND company_name != 'First Bank Company';
