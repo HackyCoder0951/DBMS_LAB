@@ -71,22 +71,26 @@ VALUES
 Q-4.1 'Write a SQL statement that returns the distinct list of product categories from the Product table ?'
 
 SELECT DISTINCT product_category
-FROM product;
+  FROM product;
 
 Q-4.2 'Write a SQL statement that returns the total record count from the Sales table ?'
 
 SELECT Count(product_id) AS 'Total Records'
-FROM sales;
+  FROM sales;
 
 Q-4.3 'Write a SQL statement that returns the Sum of Sales Amount grouped by Product Category having sales greater than 1500 ?'
 
 SELECT product_category,SUM(Sales_amount)
-FROM product LEFT JOIN sales Using (Product_id)
-GROUP BY Product_category
-Having SUM(sales_amount) > 1500;
+  FROM product 
+    LEFT JOIN sales 
+      USING (Product_id)
+    GROUP BY Product_category
+  Having SUM(sales_amount) > 1500;
 
 Q-4.4 'Write a SQL Statement that returns a list of products that do not appear the Sales table ?'
 
-SELECT product.product_id FROM product
-LEFT JOIN Sales USING (product_id)
-WHERE sales.product_id IS NULL;
+SELECT product.product_id 
+  FROM product
+    LEFT JOIN Sales 
+      USING (product_id)
+  WHERE sales.product_id IS NULL;
