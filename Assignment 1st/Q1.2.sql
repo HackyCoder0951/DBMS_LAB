@@ -520,4 +520,28 @@ SELECT ID, AVG(points) AS GPA
     JOIN grade_points AS GP ON takes.grade = GP.grade
   GROUP BY ID;
 
-Q-2.4
+Q-2.4 'Increase the salary of instructor in the Comp. Sci. department where salary is less then 5000 rs by 10% ?'
+
+Q-2.5 'Delete all courses that have never been offered (i.e., do not occur in the section relation) ?'
+
+Q-2.6 'Insert every student whose total credit attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
+
+Q-2.7 'Find the titles of courses in the Comp. Sci. department that have 3 credits ?'
+
+Q-2.8 'Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result ?'
+
+Q-2.9 'Find the highest salary of any instructor ?'
+
+Q-2.10 'Find all instructors earning the highest salary (there may be more than one with the same salary) ?'
+
+Q-2.11 'Find the enrollment of each section that was o ered in Fall 2017 ?'
+
+Q-2.12 'Find the maximum enrollment, across all sections, in Fall 2017 ?'
+
+Q-2.13 'Find the sections that had the maximum enrollment in Fall 2017 ?'
+
+Q-2.14 'Increase the salary of each instructor in the Comp. Sci. department by 10% ?'
+
+Q-2.15 'Delete all courses that have never been o ered (i.e., do not occur in the section relation) ?'
+
+Q-2.16 'Insert every student whose tot cred attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
