@@ -2,6 +2,8 @@
 -- Database: `mca_assign3`
 --
 
+CREATE DATABASE mca_assign3;
+
 --
 -- Table structure for table `account`
 --
