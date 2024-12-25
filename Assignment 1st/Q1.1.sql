@@ -118,4 +118,9 @@ SELECT concat(EmpId," --> ",ManagerId) AS "EmpId & ManagerId Together" FROM empd
 Q10 'Write an SQL query to fetch project-wise count of employees sorted by 
     a). project’s count in descending order ?'
 
-SELECT PROJECT,COUNT(project) AS EMPLOYEES FROM empsalary GROUP BY Project ORDER BY COUNT(empsalary.project) DESC;
+SELECT PROJECT,COUNT(project) 
+  AS EMPLOYEES 
+    FROM empsalary 
+      GROUP BY Project 
+        ORDER BY COUNT(empsalary.project) 
+          DESC;
