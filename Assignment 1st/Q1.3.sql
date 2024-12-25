@@ -40,7 +40,8 @@ CREATE TABLE `borrower` (
 -- Dumping data for table `borrower`
 --
 
-INSERT INTO `borrower` (`customer_id`, `loan_number`) VALUES
+INSERT INTO `borrower` (`customer_id`, `loan_number`) 
+VALUES
 (12345, 202402),
 (34259, 202404),
 (42629, 202403),
@@ -62,7 +63,8 @@ CREATE TABLE `branch` (
 -- Dumping data for table `branch`
 --
 
-INSERT INTO `branch` (`branch_name`, `branch_city`, `assets`) VALUES
+INSERT INTO `branch` (`branch_name`, `branch_city`, `assets`)
+ VALUES
 ('SBI Gujarat', 'Surat', '4000000'),
 ('SBI Harrison', 'Harrison', '5000000'),
 ('SBI Haryana', 'Delhi', '3000000'),
@@ -87,7 +89,8 @@ CREATE TABLE `customer` (
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `customer_name`, `customer_street`, `customer_city`) VALUES
+INSERT INTO `customer` (`customer_id`, `customer_name`, `customer_street`, `customer_city`) 
+VALUES
 (12345, 'Rahul', 'st.no.2', 'Udaipur'),
 (34259, 'Rohit', 'st.no.4', 'Mumbai'),
 (36537, 'Harish', 'st.no.6', 'Harrison'),
@@ -110,7 +113,8 @@ CREATE TABLE `depositor` (
 -- Dumping data for table `depositor`
 --
 
-INSERT INTO `depositor` (`customer_id`, `account_number`) VALUES
+INSERT INTO `depositor` (`customer_id`, `account_number`) 
+VALUES
 (12345, 1234),
 (34259, 6254),
 (34259, 7265),
@@ -135,7 +139,8 @@ CREATE TABLE `loan` (
 -- Dumping data for table `loan`
 --
 
-INSERT INTO `loan` (`loan_number`, `branch_name`, `amount`) VALUES
+INSERT INTO `loan` (`loan_number`, `branch_name`, `amount`) 
+VALUES
 (202401, 'SBI Rajasthan', 10005.00),
 (202402, 'SBI Rajasthan', 20520.50),
 (202403, 'SBI Punjab', 30525.25),
