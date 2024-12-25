@@ -66,3 +66,12 @@ VALUES
   (13, 'Tom', 2000),
   (14, 'Joe', 1500),
   (12, 'Bill', 1000);
+
+
+Q-4.1 'Write a SQL statement that returns the distinct list of product categories from the Product table ?'
+
+Q-4.2 'Write a SQL statement that returns the total record count from the Sales table ?'
+
+Q-4.3 'Write a SQL statement that returns the Sum of Sales Amount grouped by Product Category having sales greater than 1500 ?'
+
+Q-4.4 'Write a SQL Statement that returns a list of products that do not appear the Sales table ?'

@@ -187,3 +187,7 @@ VALUES
   (15345, 'Mohit', 'Shastri Circle'),
   (16945, 'Hardik', 'Mali Colony'),
   (18345, 'Sumit', 'Delhi Gate');
+
+Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
+
+Q-5.2 'Delete all year-2010 cars belonging to the person whose ID is 12345 ?'

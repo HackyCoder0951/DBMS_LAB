@@ -148,3 +148,17 @@ VALUES
   (104, 'Big Bank Company', 10500),
   (105, 'Small Bank Company', 10000),
   (106, 'Medium Bank Company', 20000);
+
+Q-6.1 'Find the ID, name, and city of residence of each employee who works for “First Bank Corporation” ?'
+
+Q-6.2 'Find the ID, name, and city of residence of each employee who works for “First Bank Corporation” and earns more than $10000 ?'
+
+Q-6.3 'Find the ID of each employee who does not work for “First Bank Corporation” ?'
+
+Q-6.4 'Find the ID of each employee who earns more than every employee of “Small Bank Corporation” ?'
+
+Q-6.5 'Assume that companies may be located in several cities. Find the name of each company that is located in every city in which “Small Bank Corporation” is located ?'
+
+Q-6.6 'Find the name of the company that has the most employees (or companies, in the case where there is a tie for the most) ?'
+
+Q-6.7 ' Find the name of each company whose employees earn a higher salary, on average, than the average salary at “First Bank Corporation” ?'

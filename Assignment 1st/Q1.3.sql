@@ -223,3 +223,9 @@ VALUES
   (202402, 'SBI Rajasthan', 20520.50),
   (202403, 'SBI Punjab', 30525.25),
   (202404, 'SBI Maharastra', 50352.60);
+
+Q-3.1 'Find the ID of each customer of the bank who has an account but not a loan ?'
+
+Q-3.2 'Find the ID of each customer who lives on the same street and in the same city as customer 12345 ?'
+
+Q-3.3 'Find the name of each branch that has at least one customer who has an account in the bank and who lives in “Harrison”'
