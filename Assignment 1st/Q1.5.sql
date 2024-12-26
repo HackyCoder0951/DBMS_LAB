@@ -151,9 +151,9 @@ INSERT INTO `participated`
 VALUES
   (101, 'WB35', 16945, 20000),
   (102, 'DL07', 15345, 10000),
-  (103, 'MH23', 12345, 16000),
   (103, 'MH57', 14745, 62000),
   (104, 'DL07', 12345, 15000),
+  (105, 'MH23', 12345, 16000),
   (106, 'GJ45', 16945, 25000),
   (107, 'GJ45', 14521, 45000);
 
@@ -191,11 +191,15 @@ VALUES
 Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
 
 SELECT COUNT(driver_id) AS 'Total Number of People'
-FROM ((`participated` LEFT JOIN `owns` USING (`driver_id`)) LEFT JOIN `accident` USING(`report_number`))
-WHERE `Year` = 2017;
+  FROM ((`participated` 
+    LEFT JOIN `owns` 
+      USING (`driver_id`)) 
+    LEFT JOIN `accident` 
+      USING(`report_number`))
+  WHERE `Year` = 2017;
 
 Q-5.2 'Delete all year-2010 cars belonging to the person whose ID is 12345 ?'
 
 DELETE car FROM car
-JOIN owns ON car.license_plate = owns.license_plate
+  JOIN owns ON car.license_plate = owns.license_plate
 WHERE `YEAR`= 2010 AND driver_id = 12345;
