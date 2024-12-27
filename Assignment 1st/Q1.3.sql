@@ -17,16 +17,9 @@ CREATE TABLE `account` (
 --
 -- Indexes for table `account`
 --
-ALTER TABLE `account`
-  ADD PRIMARY KEY (`account_number`),
-  ADD KEY `branch_name` (`branch_name`);
 
---
--- Constraints for table `account`
---
 ALTER TABLE `account`
-  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`branch_name`) 
-  REFERENCES `branch` (`branch_name`);
+  ADD PRIMARY KEY (`account_number`);
 
 --
 -- Dumping data for table `account`
@@ -57,18 +50,7 @@ CREATE TABLE `borrower` (
 --
 
 ALTER TABLE `borrower`
-  ADD PRIMARY KEY (`customer_id`,`loan_number`),
-  ADD KEY `loan_number` (`loan_number`);
-
---
--- Constraints for table `borrower`
---
-
-ALTER TABLE `borrower`
-  ADD CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`loan_number`) 
-  REFERENCES `loan` (`loan_number`),
-  ADD CONSTRAINT `borrower_ibfk_2` FOREIGN KEY (`customer_id`) 
-  REFERENCES `customer` (`customer_id`);
+  ADD PRIMARY KEY (`customer_id`,`loan_number`);
 
 --
 -- Dumping data for table `borrower`
@@ -158,18 +140,7 @@ CREATE TABLE `depositor` (
 --
 
 ALTER TABLE `depositor`
-  ADD PRIMARY KEY (`customer_id`,`account_number`),
-  ADD KEY `account_number` (`account_number`);
-
---
--- Constraints for table `depositor`
---
-
-ALTER TABLE `depositor`
-  ADD CONSTRAINT `depositor_ibfk_1` FOREIGN KEY (`account_number`) 
-  REFERENCES `account` (`account_number`),
-  ADD CONSTRAINT `depositor_ibfk_2` FOREIGN KEY (`customer_id`) 
-  REFERENCES `customer` (`customer_id`);
+  ADD PRIMARY KEY (`customer_id`,`account_number`);
 
 --
 -- Dumping data for table `depositor`
@@ -201,16 +172,7 @@ CREATE TABLE `loan` (
 --
 
 ALTER TABLE `loan`
-  ADD PRIMARY KEY (`loan_number`),
-  ADD KEY `branch_name` (`branch_name`);
-
---
--- Constraints for table `loan`
---
-
-ALTER TABLE `loan`
-  ADD CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`branch_name`) 
-  REFERENCES `branch` (`branch_name`);
+  ADD PRIMARY KEY (`loan_number`);
 
 --
 -- Dumping data for table `loan`
@@ -223,6 +185,42 @@ VALUES
   (202402, 'SBI Rajasthan', 20520.50),
   (202403, 'SBI Punjab', 30525.25),
   (202404, 'SBI Maharastra', 50352.60);
+
+--
+-- Constraints for table `account`
+--
+
+ALTER TABLE `account`
+  ADD CONSTRAINT `account_ibfk_1` FOREIGN KEY (`branch_name`) 
+  REFERENCES `branch` (`branch_name`);
+
+--
+-- Constraints for table `borrower`
+--
+
+ALTER TABLE `borrower`
+  ADD CONSTRAINT `borrower_ibfk_1` FOREIGN KEY (`loan_number`) 
+  REFERENCES `loan` (`loan_number`),
+  ADD CONSTRAINT `borrower_ibfk_2` FOREIGN KEY (`customer_id`) 
+  REFERENCES `customer` (`customer_id`);
+
+--
+-- Constraints for table `depositor`
+--
+
+ALTER TABLE `depositor`
+  ADD CONSTRAINT `depositor_ibfk_1` FOREIGN KEY (`account_number`) 
+  REFERENCES `account` (`account_number`),
+  ADD CONSTRAINT `depositor_ibfk_2` FOREIGN KEY (`customer_id`) 
+  REFERENCES `customer` (`customer_id`);
+
+--
+-- Constraints for table `loan`
+--
+
+ALTER TABLE `loan`
+  ADD CONSTRAINT `loan_ibfk_1` FOREIGN KEY (`branch_name`) 
+  REFERENCES `branch` (`branch_name`);
 
 Q-3.1 'Find the ID of each customer of the bank who has an account but not a loan ?'
 
@@ -255,4 +253,4 @@ FROM (
     ON depositor.Customer_id = customer.Customer_id)
   LEFT JOIN account 
     ON depositor.account_number = account.account_number)
-WHERE customer_city = 'Harrison';
+WHERE customer_city = 'Harrison';*/

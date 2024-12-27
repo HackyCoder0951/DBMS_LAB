@@ -87,15 +87,6 @@ ALTER TABLE `owns`
   ADD KEY `license_plate` (`license_plate`);
 
 --
--- Constraints for table `owns`
---
-ALTER TABLE `owns`
-  ADD CONSTRAINT `owns_ibfk_1` FOREIGN KEY (`driver_id`) 
-  REFERENCES `person` (`driver_id`),
-  ADD CONSTRAINT `owns_ibfk_2` FOREIGN KEY (`license_plate`) 
-  REFERENCES `car` (`license_plate`) ON DELETE CASCADE;
-
---
 -- Dumping data for table `owns`
 --
 
@@ -129,18 +120,6 @@ ALTER TABLE `participated`
   ADD PRIMARY KEY (`report_number`,`license_plate`),
   ADD KEY `license_plate` (`license_plate`),
   ADD KEY `driver_id` (`driver_id`);
-
---
--- Constraints for table `participated`
---
-
-ALTER TABLE `participated`
-  ADD CONSTRAINT `participated_ibfk_1` FOREIGN KEY (`report_number`) 
-  REFERENCES `accident` (`report_number`),
-  ADD CONSTRAINT `participated_ibfk_2` FOREIGN KEY (`license_plate`) 
-  REFERENCES `car` (`license_plate`) ON DELETE CASCADE,
-  ADD CONSTRAINT `participated_ibfk_3` FOREIGN KEY (`driver_id`) 
-  REFERENCES `person` (`driver_id`);
 
 --
 -- Dumping data for table `participated`
@@ -187,6 +166,27 @@ VALUES
   (15345, 'Mohit', 'Shastri Circle'),
   (16945, 'Hardik', 'Mali Colony'),
   (18345, 'Sumit', 'Delhi Gate');
+
+--
+-- Constraints for table `owns`
+--
+ALTER TABLE `owns`
+  ADD CONSTRAINT `owns_ibfk_1` FOREIGN KEY (`driver_id`) 
+  REFERENCES `person` (`driver_id`),
+  ADD CONSTRAINT `owns_ibfk_2` FOREIGN KEY (`license_plate`) 
+  REFERENCES `car` (`license_plate`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `participated`
+--
+
+ALTER TABLE `participated`
+  ADD CONSTRAINT `participated_ibfk_1` FOREIGN KEY (`report_number`) 
+  REFERENCES `accident` (`report_number`),
+  ADD CONSTRAINT `participated_ibfk_2` FOREIGN KEY (`license_plate`) 
+  REFERENCES `car` (`license_plate`) ON DELETE CASCADE,
+  ADD CONSTRAINT `participated_ibfk_3` FOREIGN KEY (`driver_id`) 
+  REFERENCES `person` (`driver_id`);
 
 Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
 

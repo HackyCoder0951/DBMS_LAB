@@ -85,16 +85,6 @@ ALTER TABLE `manages`
   ADD KEY `manager_id` (`manager_id`);
 
 --
--- Constraints for table `manages`
---
-
-ALTER TABLE `manages`
-  ADD CONSTRAINT `manages_ibfk_1` FOREIGN KEY (`emp_id`) 
-  REFERENCES `employee` (`emp_id`),
-  ADD CONSTRAINT `manages_ibfk_2` FOREIGN KEY (`manager_id`) 
-  REFERENCES `employee` (`emp_id`);
-
---
 -- Dumping data for table `manages`
 --
 
@@ -126,16 +116,6 @@ ALTER TABLE `works`
   ADD KEY `company_name` (`company_name`);
 
 --
--- Constraints for table `works`
---
-
-ALTER TABLE `works`
-  ADD CONSTRAINT `works_ibfk_1` FOREIGN KEY (`emp_id`) 
-  REFERENCES `employee` (`emp_id`),
-  ADD CONSTRAINT `works_ibfk_2` FOREIGN KEY (`company_name`) 
-  REFERENCES `company` (`company_name`);
-
---
 -- Dumping data for table `works`
 --
 
@@ -148,6 +128,26 @@ VALUES
   (104, 'Big Bank Company', 10500),
   (105, 'Small Bank Company', 10000),
   (106, 'Medium Bank Company', 20000);
+
+--
+-- Constraints for table `manages`
+--
+
+ALTER TABLE `manages`
+  ADD CONSTRAINT `manages_ibfk_1` FOREIGN KEY (`emp_id`) 
+  REFERENCES `employee` (`emp_id`),
+  ADD CONSTRAINT `manages_ibfk_2` FOREIGN KEY (`manager_id`) 
+  REFERENCES `employee` (`emp_id`);
+
+--
+-- Constraints for table `works`
+--
+
+ALTER TABLE `works`
+  ADD CONSTRAINT `works_ibfk_1` FOREIGN KEY (`emp_id`) 
+  REFERENCES `employee` (`emp_id`),
+  ADD CONSTRAINT `works_ibfk_2` FOREIGN KEY (`company_name`) 
+  REFERENCES `company` (`company_name`);
 
 Q-6.1 'Find the ID, name, and city of residence of each employee who works for “First Bank Corporation” ?'
 

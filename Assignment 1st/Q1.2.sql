@@ -20,16 +20,6 @@ ALTER TABLE `advisor`
   ADD KEY `iID` (`iID`);
 
 --
--- Constraints for table `advisor`
---
-
-ALTER TABLE `advisor`
-  ADD CONSTRAINT `advisor_ibfk_1` FOREIGN KEY (`sID`) 
-  REFERENCES `student` (`ID`),
-  ADD CONSTRAINT `advisor_ibfk_2` FOREIGN KEY (`iID`) 
-  REFERENCES `instructor` (`ID`);
-
---
 -- Dumping data for table `advisor`
 --
 
@@ -103,14 +93,6 @@ ALTER TABLE `course`
   ADD KEY `dept_name` (`dept_name`);
 
 --
--- Constraints for table `course`
---
-
-ALTER TABLE `course`
-  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`dept_name`) 
-  REFERENCES `department` (`dept_name`);
-
---
 -- Dumping data for table `course`
 --
 
@@ -145,14 +127,6 @@ CREATE TABLE `department` (
 ALTER TABLE `department`
   ADD PRIMARY KEY (`dept_name`),
   ADD KEY `building` (`building`);
-
---
--- Constraints for table `department`
---
-
-ALTER TABLE `department`
-  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`building`) 
-  REFERENCES `classroom` (`building`);
 
 --
 -- Dumping data for table `department`
@@ -192,14 +166,6 @@ ALTER TABLE `instructor`
   ADD KEY `dept_name` (`dept_name`);
 
 --
--- Constraints for table `instructor`
---
-
-ALTER TABLE `instructor`
-  ADD CONSTRAINT `instructor_ibfk_1` FOREIGN KEY (`dept_name`) 
-  REFERENCES `department` (`dept_name`);
-
---
 -- Dumping data for table `instructor`
 --
 
@@ -233,14 +199,6 @@ CREATE TABLE `prereq` (
 ALTER TABLE `prereq`
   ADD PRIMARY KEY (`course_id`,`prereq_id`),
   ADD KEY `prereq_id` (`prereq_id`);
-
---
--- Constraints for table `prereq`
---
-
-ALTER TABLE `prereq`
-  ADD CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) 
-  REFERENCES `course` (`course_id`);
 
 --
 -- Dumping data for table `prereq`
@@ -284,18 +242,6 @@ ALTER TABLE `section`
   ADD KEY `section_ibfk_3` (`time_slot_id`);
 
 --
--- Constraints for table `section`
---
-
-ALTER TABLE `section`
-  ADD CONSTRAINT `section_ibfk_1` FOREIGN KEY (`course_id`) 
-  REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `section_ibfk_2` FOREIGN KEY (`building`,`room_number`) 
-  REFERENCES `classroom` (`building`, `room_number`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `section_ibfk_3` FOREIGN KEY (`time_slot_id`) 
-  REFERENCES `time_slot` (`time_slot_id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
 -- Dumping data for table `section`
 --
 
@@ -331,14 +277,6 @@ CREATE TABLE `student` (
 ALTER TABLE `student`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `dept_name` (`dept_name`);
-
---
--- Constraints for table `student`
---
-
-ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`dept_name`) 
-  REFERENCES `department` (`dept_name`);
 
 --
 -- Dumping data for table `student`
@@ -380,16 +318,6 @@ ALTER TABLE `takes`
   ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
 
 --
--- Constraints for table `takes`
---
-
-ALTER TABLE `takes`
-  ADD CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`ID`) 
-  REFERENCES `student` (`ID`),
-  ADD CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
-  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
-
---
 -- Dumping data for table `takes`
 --
 
@@ -426,16 +354,6 @@ CREATE TABLE `teaches` (
 ALTER TABLE `teaches`
   ADD PRIMARY KEY (`ID`,`course_id`,`sec_id`,`semester`,`year`),
   ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
-
---
--- Constraints for table `teaches`
---
-
-ALTER TABLE `teaches`
-  ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`ID`) 
-  REFERENCES `instructor` (`ID`),
-  ADD CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
-  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
 
 --
 -- Dumping data for table `teaches`
@@ -512,6 +430,88 @@ VALUES
   ('B+','3.3'),
   ('B-','3'),
   ('C+','2.75');
+
+--
+-- Constraints for table `advisor`
+--
+
+ALTER TABLE `advisor`
+  ADD CONSTRAINT `advisor_ibfk_1` FOREIGN KEY (`sID`) 
+  REFERENCES `student` (`ID`),
+  ADD CONSTRAINT `advisor_ibfk_2` FOREIGN KEY (`iID`) 
+  REFERENCES `instructor` (`ID`);
+
+--
+-- Constraints for table `course`
+--
+
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`dept_name`) 
+  REFERENCES `department` (`dept_name`);
+
+--
+-- Constraints for table `department`
+--
+
+ALTER TABLE `department`
+  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`building`) 
+  REFERENCES `classroom` (`building`);
+
+--
+-- Constraints for table `instructor`
+--
+
+ALTER TABLE `instructor`
+  ADD CONSTRAINT `instructor_ibfk_1` FOREIGN KEY (`dept_name`) 
+  REFERENCES `department` (`dept_name`);
+
+--
+-- Constraints for table `prereq`
+--
+
+ALTER TABLE `prereq`
+  ADD CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) 
+  REFERENCES `course` (`course_id`);
+
+--
+-- Constraints for table `section`
+--
+
+ALTER TABLE `section`
+  ADD CONSTRAINT `section_ibfk_1` FOREIGN KEY (`course_id`) 
+  REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `section_ibfk_2` FOREIGN KEY (`building`,`room_number`) 
+  REFERENCES `classroom` (`building`, `room_number`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `section_ibfk_3` FOREIGN KEY (`time_slot_id`) 
+  REFERENCES `time_slot` (`time_slot_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `student`
+--
+
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`dept_name`) 
+  REFERENCES `department` (`dept_name`);
+
+--
+-- Constraints for table `takes`
+--
+
+ALTER TABLE `takes`
+  ADD CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`ID`) 
+  REFERENCES `student` (`ID`),
+  ADD CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
+  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
+
+--
+-- Constraints for table `teaches`
+--
+
+ALTER TABLE `teaches`
+  ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`ID`) 
+  REFERENCES `instructor` (`ID`),
+  ADD CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
+  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
 
 Q-2.1 'Find the total grade points earned by the student with ID 'S101', across all courses taken by the student ?'
 

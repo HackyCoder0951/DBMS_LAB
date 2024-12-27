@@ -49,13 +49,6 @@ ALTER TABLE `sales`
   ADD KEY `Product_Id` (`Product_Id`);
 
 --
--- Constraints for table `sales`
---
-ALTER TABLE `sales`
-  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`Product_Id`) 
-  REFERENCES `product` (`Product_Id`);
-
---
 -- Dumping data for table `sales`
 --
 
@@ -66,6 +59,13 @@ VALUES
   (13, 'Tom', 2000),
   (14, 'Joe', 1500),
   (12, 'Bill', 1000);
+
+--
+-- Constraints for table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`Product_Id`) 
+  REFERENCES `product` (`Product_Id`);
 
 
 Q-4.1 'Write a SQL statement that returns the distinct list of product categories from the Product table ?'

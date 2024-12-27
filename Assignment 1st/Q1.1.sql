@@ -40,12 +40,6 @@ CREATE TABLE mca_assign1.empsalary (
 ALTER TABLE mca_assign1.empsalary 
   ADD PRIMARY KEY(EmpID);
 
--- Adding Foreign Key using Constraints into EmpSalary
-ALTER TABLE mca_assign1.empsalary 
-  ADD CONSTRAINT `con1` FOREIGN KEY (`EmpID`) 
-  REFERENCES mca_assign1.empdetails(`EmpID`) 
-  ON DELETE CASCADE ON UPDATE CASCADE;
-
 -- Inserting Data into EmpSalary
 INSERT INTO mca_assign1.empsalary 
     (EmpID,Project,Salary,Variable) 
@@ -55,6 +49,12 @@ INSERT INTO mca_assign1.empsalary
     (555, 'P1', 12000, 0),
     (112, 'P3', 16000, 950),
     (113, 'P4', 15500, 1250);
+
+-- Adding Foreign Key using Constraints into EmpSalary
+ALTER TABLE mca_assign1.empsalary 
+  ADD CONSTRAINT `con1` FOREIGN KEY (`EmpID`) 
+  REFERENCES mca_assign1.empdetails(`EmpID`) 
+  ON DELETE CASCADE ON UPDATE CASCADE;
 
 
 Q-1.1 'SQL Query to fetch records that are present in one table but not in another table ?'
