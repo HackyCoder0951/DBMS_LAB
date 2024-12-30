@@ -68,74 +68,6 @@ VALUES
   ('RJ27', 'Audi', 2016),
   ('WB35', 'Wagnar', 2017);
 
-
---
--- Table structure for table `owns`
---
-
-CREATE TABLE `owns` (
-  `driver_id` int(11) NOT NULL,
-  `license_plate` varchar(50) NOT NULL
-);
-
---
--- Indexes for table `owns`
---
-
-ALTER TABLE `owns`
-  ADD PRIMARY KEY (`driver_id`,`license_plate`),
-  ADD KEY `license_plate` (`license_plate`);
-
---
--- Dumping data for table `owns`
---
-
-INSERT INTO `owns` 
-  (`driver_id`, `license_plate`) 
-VALUES
-  (12345, 'DL07'),
-  (12345, 'MH23'),
-  (12345, 'WB35'),
-  (14521, 'RJ27'),
-  (14745, 'MH57'),
-  (16945, 'GJ45'),
-  (16945, 'WB35');
-
---
--- Table structure for table `participated`
---
-
-CREATE TABLE `participated` (
-  `report_number` int(11) NOT NULL,
-  `license_plate` varchar(50) NOT NULL,
-  `driver_id` int(11) DEFAULT NULL,
-  `damage_amount` int(11) DEFAULT NULL
-);
-
---
--- Indexes for table `participated`
---
-
-ALTER TABLE `participated`
-  ADD PRIMARY KEY (`report_number`,`license_plate`),
-  ADD KEY `license_plate` (`license_plate`),
-  ADD KEY `driver_id` (`driver_id`);
-
---
--- Dumping data for table `participated`
---
-
-INSERT INTO `participated` 
-  (`report_number`, `license_plate`, `driver_id`, `damage_amount`) 
-VALUES
-  (101, 'WB35', 16945, 20000),
-  (102, 'DL07', 15345, 10000),
-  (103, 'MH57', 14745, 62000),
-  (104, 'DL07', 12345, 15000),
-  (105, 'MH23', 12345, 16000),
-  (106, 'GJ45', 16945, 25000),
-  (107, 'GJ45', 14521, 45000);
-
 --
 -- Table structure for table `person`
 --
@@ -168,11 +100,75 @@ VALUES
   (18345, 'Sumit', 'Delhi Gate');
 
 --
+-- Table structure for table `owns`
+--
+
+CREATE TABLE `owns` (
+  `driver_id` int(11) NOT NULL,
+  `license_plate` varchar(50) NOT NULL
+);
+
+--
+-- Indexes for table `owns`
+--
+
+ALTER TABLE `owns`
+  ADD PRIMARY KEY (`driver_id`,`license_plate`);
+
+--
+-- Dumping data for table `owns`
+--
+
+INSERT INTO `owns` 
+  (`driver_id`, `license_plate`) 
+VALUES
+  (12345, 'DL07'),
+  (12345, 'MH23'),
+  (12345, 'WB35'),
+  (14521, 'RJ27'),
+  (14745, 'MH57'),
+  (16945, 'GJ45'),
+  (16945, 'WB35');
+
+--
+-- Table structure for table `participated`
+--
+
+CREATE TABLE `participated` (
+  `report_number` int(11) NOT NULL,
+  `license_plate` varchar(50) NOT NULL,
+  `driver_id` int(11) DEFAULT NULL,
+  `damage_amount` int(11) DEFAULT NULL
+);
+
+--
+-- Indexes for table `participated`
+--
+
+ALTER TABLE `participated`
+  ADD PRIMARY KEY (`report_number`,`license_plate`);
+
+--
+-- Dumping data for table `participated`
+--
+
+INSERT INTO `participated` 
+  (`report_number`, `license_plate`, `driver_id`, `damage_amount`) 
+VALUES
+  (101, 'WB35', 16945, 20000),
+  (102, 'DL07', 15345, 10000),
+  (103, 'MH57', 14745, 62000),
+  (104, 'DL07', 12345, 15000),
+  (105, 'MH23', 12345, 16000),
+  (106, 'GJ45', 16945, 25000),
+  (107, 'GJ45', 14521, 45000);
+
+--
 -- Constraints for table `owns`
 --
 ALTER TABLE `owns`
   ADD CONSTRAINT `owns_ibfk_1` FOREIGN KEY (`driver_id`) 
-  REFERENCES `person` (`driver_id`),
+  REFERENCES `person` (`driver_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `owns_ibfk_2` FOREIGN KEY (`license_plate`) 
   REFERENCES `car` (`license_plate`) ON DELETE CASCADE;
 
@@ -181,12 +177,15 @@ ALTER TABLE `owns`
 --
 
 ALTER TABLE `participated`
-  ADD CONSTRAINT `participated_ibfk_1` FOREIGN KEY (`report_number`) 
-  REFERENCES `accident` (`report_number`),
-  ADD CONSTRAINT `participated_ibfk_2` FOREIGN KEY (`license_plate`) 
-  REFERENCES `car` (`license_plate`) ON DELETE CASCADE,
-  ADD CONSTRAINT `participated_ibfk_3` FOREIGN KEY (`driver_id`) 
-  REFERENCES `person` (`driver_id`);
+  ADD CONSTRAINT `participated_ibfk_1` 
+      FOREIGN KEY (`report_number`) 
+    REFERENCES `accident` (`report_number`) ON DELETE CASCADE,
+  ADD CONSTRAINT `participated_ibfk_2` 
+      FOREIGN KEY (`license_plate`) 
+    REFERENCES `car` (`license_plate`) ON DELETE CASCADE,
+  ADD CONSTRAINT `participated_ibfk_3` 
+      FOREIGN KEY (`driver_id`) 
+    REFERENCES `person` (`driver_id`) ON DELETE CASCADE;
 
 Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
 
@@ -200,6 +199,8 @@ SELECT COUNT(driver_id) AS 'Total Number of People'
 
 Q-5.2 'Delete all year-2010 cars belonging to the person whose ID is 12345 ?'
 
-DELETE car FROM car
-  JOIN owns ON car.license_plate = owns.license_plate
-WHERE `YEAR`= 2010 AND driver_id = 12345;
+DELETE car 
+  FROM car
+    inner JOIN owns ON car.license_plate = owns.license_plate
+  WHERE Year = 2010 
+  AND driver_id = 12345;
