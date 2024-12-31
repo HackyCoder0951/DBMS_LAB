@@ -260,3 +260,28 @@ FROM (
   LEFT JOIN account 
     ON depositor.account_number = account.account_number)
 WHERE customer_city = 'Harrison';
+
+Q-3.4 'Find the maximum loan-giving branch with its customer names who have taken loans and deposited in that branch ? '
+
+SELECT customer_id AS 'Customer ID',
+       customer_name AS 'Customer Name',
+       branch_name AS 'Branch Name',
+       COUNT(loan_number) AS 'Loans Passed'
+FROM borrower
+  JOIN loan USING(loan_number)
+  JOIN depositor USING(customer_id)
+  JOIN customer USING(customer_id)
+  GROUP BY loan.branch_name, 
+           customer.customer_id, 
+           customer.customer_name
+    ORDER BY COUNT(loan.loan_number) 
+      DESC
+LIMIT 1;
+
+Q-3.5 'Find the name of that customer who is both depositor and borrower ?'
+
+SELECT DISTINCT customer_id AS 'Customer ID',
+                customer_name AS 'Customer Name'
+FROM depositor
+  JOIN borrower USING (customer_id)
+  JOIN customer USING (customer_id);

@@ -46,7 +46,7 @@ CREATE TABLE `sales` (
 -- Indexes for table `sales`
 --
 ALTER TABLE `sales`
-  ADD KEY `Product_Id` (`Product_Id`);
+  ADD PRIMARY KEY (`Product_Id`,`Customer`);
 
 --
 -- Dumping data for table `sales`
@@ -64,14 +64,15 @@ VALUES
 -- Constraints for table `sales`
 --
 ALTER TABLE `sales`
-  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`Product_Id`) 
+  ADD CONSTRAINT `sales_ibfk_1` 
+    FOREIGN KEY (`Product_Id`) 
   REFERENCES `product` (`Product_Id`);
 
 
 Q-4.1 'Write a SQL statement that returns the distinct list of product categories from the Product table ?'
 
 SELECT DISTINCT product_category
-  FROM product;
+FROM product;
 
 Q-4.2 'Write a SQL statement that returns the total record count from the Sales table ?'
 
@@ -80,7 +81,7 @@ SELECT Count(product_id) AS 'Total Records'
 
 Q-4.3 'Write a SQL statement that returns the Sum of Sales Amount grouped by Product Category having sales greater than 1500 ?'
 
-SELECT product_category,SUM(Sales_amount)
+SELECT product_category,SUM(Sales_amount) AS 'Sales Amount'
   FROM product 
     LEFT JOIN sales 
       USING (Product_id)
