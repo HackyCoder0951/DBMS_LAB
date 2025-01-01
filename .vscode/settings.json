@@ -11,7 +11,7 @@
             "driver": "MySQL",
             "name": "mca_work",
             "username": "root",
-            "database": "mca_assign5",
+            "database": "mca_assign3",
             "password": "vitc@123"
         }
     ]

@@ -263,25 +263,32 @@ WHERE customer_city = 'Harrison';
 
 Q-3.4 'Find the maximum loan-giving branch with its customer names who have taken loans and deposited in that branch ? '
 
-SELECT customer_id AS 'Customer ID',
-       customer_name AS 'Customer Name',
-       branch_name AS 'Branch Name',
-       COUNT(loan_number) AS 'Loans Passed'
-FROM borrower
-  JOIN loan USING(loan_number)
-  JOIN depositor USING(customer_id)
-  JOIN customer USING(customer_id)
-  GROUP BY loan.branch_name, 
-           customer.customer_id, 
-           customer.customer_name
-    ORDER BY COUNT(loan.loan_number) 
-      DESC
-LIMIT 1;
+WITH MaxLoanBranch AS(
+  SELECT branch_name,
+    COUNT(loan_number) AS loans_count
+  FROM loan
+    GROUP BY branch_name
+    ORDER BY COUNT(loan_number) DESC
+  LIMIT 1
+)
+SELECT  c.customer_id AS 'Customer ID',
+        c.customer_name AS 'Customer Name',
+        l.branch_name AS 'Branch Name'
+  FROM borrower b
+      JOIN loan l ON b.loan_number = l.loan_number
+      JOIN customer c ON b.customer_id = c.customer_id
+    WHERE l.branch_name =(
+        SELECT branch_name
+          FROM MaxLoanBranch
+      )
+  ORDER BY c.customer_id;
 
 Q-3.5 'Find the name of that customer who is both depositor and borrower ?'
 
 SELECT DISTINCT customer_id AS 'Customer ID',
                 customer_name AS 'Customer Name'
-FROM depositor
-  JOIN borrower USING (customer_id)
-  JOIN customer USING (customer_id);
+  FROM depositor
+    JOIN borrower 
+      USING (customer_id)
+    JOIN customer 
+      USING (customer_id);
