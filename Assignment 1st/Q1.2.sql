@@ -3,39 +3,40 @@
 CREATE DATABASE mca_assign2;
 
 --
--- Table structure for table `advisor`
+-- Table structure for table `department`
 --
 
-CREATE TABLE `advisor` (
-  `sID` varchar(10) NOT NULL,
-  `iID` varchar(10) NOT NULL
+CREATE TABLE `department` (
+  `dept_name` varchar(50) NOT NULL,
+  `building` varchar(20) DEFAULT NULL,
+  `budget` decimal(10,2) DEFAULT NULL
 );
 
 --
--- Indexes for table `advisor`
+-- Indexes for table `department`
 --
 
-ALTER TABLE `advisor`
-  ADD PRIMARY KEY (`sID`,`iID`),
-  ADD KEY `iID` (`iID`);
+ALTER TABLE `department`
+  ADD PRIMARY KEY (`dept_name`),
+  ADD KEY `building` (`building`);
 
 --
--- Dumping data for table `advisor`
+-- Dumping data for table `department`
 --
 
-INSERT INTO `advisor` 
-  (`sID`, `iID`) 
+INSERT INTO `department` 
+  (`dept_name`, `building`, `budget`) 
 VALUES
-  ('S101', 'PH101'),
-  ('S123', 'P123'),
-  ('S202', 'CH202'),
-  ('S303', 'BI303'),
-  ('S404', 'HI404'),
-  ('S456', 'E456'),
-  ('S505', 'EN505'),
-  ('S606', 'MG606'),
-  ('S707', 'SP707'),
-  ('S789', 'M789');
+  ('Biology', 'Science Building', '300000.00'),
+  ('Chemistry', 'Science Building', '350000.00'),
+  ('Computer Science', 'Main Building', '1000000.00'),
+  ('Electrical Engineering', 'Engineering Building', '800000.00'),
+  ('English', 'Arts Building', '150000.00'),
+  ('History', 'Arts Building', '200000.00'),
+  ('Management', 'Admin Building', '250000.00'),
+  ('Mathematics', 'Main Building', '500000.00'),
+  ('Physics', 'Science Building', '400000.00'),
+  ('Sports', 'Sports Complex', '100000.00');
 
 --
 -- Table structure for table `classroom`
@@ -100,51 +101,23 @@ INSERT INTO `course`
   (`course_id`, `title`, `dept_name`, `credits`) 
 VALUES
   ('BIO101', 'Introduction to Biology', 'Biology', 3),
+  ('BIO102', 'Introduction to Micro Biology', 'Biology', 3),
   ('CHEM101', 'General Chemistry', 'Chemistry', 4),
+  ('CHEM102', 'Organic Chemistry', 'Chemistry', 4),
   ('CS101', 'Introduction to Programming', 'Computer Science', 3),
+  ('CS102', 'Introduction to IT', 'Computer Science', 3),
   ('EE202', 'Circuit Analysis', 'Electrical Engineering', 4),
+  ('EE203', 'Circuit Design', 'Electrical Engineering', 4),
   ('ENG101', 'English Composition', 'English', 3),
   ('HIST201', 'Modern World History', 'History', 3),
   ('MATH301', 'Calculus III', 'Mathematics', 3),
+  ('MATH302', 'Calculus IV', 'Mathematics', 3),
   ('MGT301', 'Principles of Management', 'Management', 3),
+  ('MGT302', 'MIS-Concepts', 'Management', 3),
   ('PHYS201', 'Mechanics', 'Physics', 3),
-  ('SPORT101', 'Physical Fitness', 'Sports', 2);
-
---
--- Table structure for table `department`
---
-
-CREATE TABLE `department` (
-  `dept_name` varchar(50) NOT NULL,
-  `building` varchar(20) DEFAULT NULL,
-  `budget` decimal(10,2) DEFAULT NULL
-);
-
---
--- Indexes for table `department`
---
-
-ALTER TABLE `department`
-  ADD PRIMARY KEY (`dept_name`),
-  ADD KEY `building` (`building`);
-
---
--- Dumping data for table `department`
---
-
-INSERT INTO `department` 
-  (`dept_name`, `building`, `budget`) 
-VALUES
-  ('Biology', 'Science Building', 300000.00),
-  ('Chemistry', 'Science Building', 350000.00),
-  ('Computer Science', 'Main Building', 1000000.00),
-  ('Electrical Engineering', 'Engineering Building', 800000.00),
-  ('English', 'Arts Building', 150000.00),
-  ('History', 'Arts Building', 200000.00),
-  ('Management', 'Admin Building', 250000.00),
-  ('Mathematics', 'Main Building', 500000.00),
-  ('Physics', 'Science Building', 400000.00),
-  ('Sports', 'Sports Complex', 100000.00);
+  ('PHYS202', 'Dynamics', 'Physics', 3),
+  ('SPORT101', 'Physical Fitness', 'Sports', 2),
+  ('SPORT102', 'Medical Fitness', 'Sports', 2);
 
 --
 -- Table structure for table `instructor`
@@ -172,206 +145,24 @@ ALTER TABLE `instructor`
 INSERT INTO `instructor` 
   (`ID`, `name`, `dept_name`, `salary`) 
 VALUES
-  ('BI303', 'Prof. Biology', 'Biology', 45000.00),
-  ('CH202', 'Prof. Chemistry', 'Chemistry', 50000.00),
-  ('E456', 'Prof. Engineer', 'Electrical Engineering', 75000.00),
-  ('EN505', 'Prof. English', 'English', 35000.00),
-  ('HI404', 'Prof. History', 'History', 40000.00),
-  ('M789', 'Prof. Math', 'Mathematics', 60000.00),
-  ('MG606', 'Prof. Management', 'Management', 50000.00),
-  ('P123', 'Prof. Patel', 'Computer Science', 80000.00),
-  ('PH101', 'Prof. Physics', 'Physics', 55000.00),
-  ('SP707', 'Coach Sports', 'Sports', 30000.00);
-
---
--- Table structure for table `prereq`
---
-
-CREATE TABLE `prereq` (
-  `course_id` varchar(10) NOT NULL,
-  `prereq_id` varchar(10) NOT NULL
-);
-
---
--- Indexes for table `prereq`
---
-
-ALTER TABLE `prereq`
-  ADD PRIMARY KEY (`course_id`,`prereq_id`),
-  ADD KEY `prereq_id` (`prereq_id`);
-
---
--- Dumping data for table `prereq`
---
-
-INSERT INTO `prereq` 
-  (`course_id`, `prereq_id`) 
-VALUES
-  ('BIO101', 'BIO100'),
-  ('CHEM101', 'CHEM100'),
-  ('CS101', 'CS201'),
-  ('EE202', 'CS101'),
-  ('ENG101', 'ENG100'),
-  ('HIST201', 'HIST101'),
-  ('MATH301', 'MATH201'),
-  ('MGT301', 'MGT201'),
-  ('PHYS201', 'PHYS101'),
-  ('SPORT101', 'SPORT100');
-
---
--- Table structure for table `section`
---
-
-CREATE TABLE `section` (
-  `course_id` varchar(10) NOT NULL,
-  `sec_id` int(11) NOT NULL,
-  `semester` varchar(20) NOT NULL,
-  `year` int(11) NOT NULL,
-  `building` varchar(20) DEFAULT NULL,
-  `room_number` int(11) DEFAULT NULL,
-  `time_slot_id` int(11) DEFAULT NULL
-);
-
---
--- Indexes for table `section`
---
-
-ALTER TABLE `section`
-  ADD PRIMARY KEY (`course_id`,`sec_id`,`semester`,`year`),
-  ADD KEY `section_ibfk_2` (`building`,`room_number`),
-  ADD KEY `section_ibfk_3` (`time_slot_id`);
-
---
--- Dumping data for table `section`
---
-
-INSERT INTO `section` 
-  (`course_id`, `sec_id`, `semester`, `year`, `building`, `room_number`, `time_slot_id`) 
-VALUES
-  ('BIO101', 1, 'Spring', 2024, 'Science Building', 202, 6),
-  ('CHEM101', 1, 'Fall', 2023, 'Science Building', 202, 5),
-  ('CS101', 1, 'Fall', 2023, 'Main Building', 101, 1),
-  ('EE202', 2, 'Spring', 2024, 'Engineering Building', 303, 2),
-  ('ENG101', 1, 'Spring', 2024, 'Arts Building', 211, 8),
-  ('HIST201', 1, 'Fall', 2023, 'Arts Building', 211, 7),
-  ('MATH301', 1, 'Fall', 2023, 'Main Building', 101, 3),
-  ('MGT301', 1, 'Fall', 2023, 'Admin Building', 102, 9),
-  ('PHYS201', 1, 'Spring', 2024, 'Science Building', 202, 4),
-  ('SPORT101', 1, 'Spring', 2024, 'Sports Complex', 105, 10);
-
---
--- Table structure for table `student`
---
-
-CREATE TABLE `student` (
-  `ID` varchar(10) NOT NULL,
-  `name` varchar(50) DEFAULT NULL,
-  `dept_name` varchar(50) DEFAULT NULL,
-  `tot_cred` int(11) DEFAULT NULL
-);
-
---
--- Indexes for table `student`
---
-
-ALTER TABLE `student`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `dept_name` (`dept_name`);
-
---
--- Dumping data for table `student`
---
-
-INSERT INTO `student` 
-  (`ID`, `name`, `dept_name`, `tot_cred`) 
-VALUES
-  ('S101', 'David', 'Physics', 25),
-  ('S123', 'Alice', 'Computer Science', 60),
-  ('S202', 'Emily', 'Chemistry', 35),
-  ('S303', 'Frank', 'Biology', 20),
-  ('S404', 'Grace', 'History', 30),
-  ('S456', 'Bob', 'Electrical Engineering', 45),
-  ('S505', 'Henry', 'English', 25),
-  ('S606', 'Ivy', 'Management', 35),
-  ('S707', 'Jack', 'Sports', 20),
-  ('S789', 'Charlie', 'Mathematics', 30);
-
---
--- Table structure for table `takes`
---
-
-CREATE TABLE `takes` (
-  `ID` varchar(10) NOT NULL,
-  `course_id` varchar(10) NOT NULL,
-  `sec_id` int(11) NOT NULL,
-  `semester` varchar(20) NOT NULL,
-  `year` int(11) NOT NULL,
-  `grade` varchar(2) DEFAULT NULL
-);
-
---
--- Indexes for table `takes`
---
-
-ALTER TABLE `takes`
-  ADD PRIMARY KEY (`ID`,`course_id`,`sec_id`,`semester`,`year`),
-  ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
-
---
--- Dumping data for table `takes`
---
-
-INSERT INTO `takes` 
-  (`ID`, `course_id`, `sec_id`, `semester`, `year`, `grade`) 
-VALUES
-  ('S101', 'PHYS201', 1, 'Spring', 2024, 'B'),
-  ('S123', 'CS101', 1, 'Fall', 2023, 'A'),
-  ('S202', 'CHEM101', 1, 'Fall', 2023, 'C+'),
-  ('S303', 'BIO101', 1, 'Spring', 2024, 'A'),
-  ('S404', 'HIST201', 1, 'Fall', 2023, 'B-'),
-  ('S456', 'EE202', 2, 'Spring', 2024, 'B+'),
-  ('S505', 'ENG101', 1, 'Spring', 2024, 'A'),
-  ('S606', 'MGT301', 1, 'Fall', 2023, 'B+'),
-  ('S707', 'SPORT101', 1, 'Spring', 2024, 'B+'),
-  ('S789', 'MATH301', 1, 'Fall', 2023, 'A-');
-
---
--- Table structure for table `teaches`
---
-
-CREATE TABLE `teaches` (
-  `ID` varchar(10) NOT NULL,
-  `course_id` varchar(10) NOT NULL,
-  `sec_id` int(11) NOT NULL,
-  `semester` varchar(20) NOT NULL,
-  `year` int(11) NOT NULL
-);
-
---
--- Indexes for table `teaches`
---
-
-ALTER TABLE `teaches`
-  ADD PRIMARY KEY (`ID`,`course_id`,`sec_id`,`semester`,`year`),
-  ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
-
---
--- Dumping data for table `teaches`
---
-
-INSERT INTO `teaches` 
-  (`ID`, `course_id`, `sec_id`, `semester`, `year`) 
-VALUES
-  ('BI303', 'BIO101', 1, 'Spring', 2024),
-  ('CH202', 'CHEM101', 1, 'Fall', 2023),
-  ('E456', 'EE202', 2, 'Spring', 2024),
-  ('EN505', 'ENG101', 1, 'Spring', 2024),
-  ('HI404', 'HIST201', 1, 'Fall', 2023),
-  ('M789', 'MATH301', 1, 'Fall', 2023),
-  ('MG606', 'MGT301', 1, 'Fall', 2023),
-  ('P123', 'CS101', 1, 'Fall', 2023),
-  ('PH101', 'PHYS201', 1, 'Spring', 2024),
-  ('SP707', 'SPORT101', 1, 'Spring', 2024);
+  ('BI303', 'Prof. Biology', 'Biology', '45000.00'),
+  ('BI304', 'Prof. Singh', 'Biology', '45500.00'),
+  ('CH202', 'Prof. Chemistry', 'Chemistry', '50000.00'),
+  ('CH204', 'Prof. Varma', 'Chemistry', '58000.00'),
+  ('E456', 'Prof. Engineer', 'Electrical Engineering', '75000.00'),
+  ('E457', 'Prof. Kunal', 'Electrical Engineering', '80500.00'),
+  ('EN505', 'Prof. English', 'English', '35000.00'),
+  ('HI404', 'Prof. History', 'History', '40000.00'),
+  ('M789', 'Prof. Math', 'Mathematics', '60000.00'),
+  ('M790', 'Prof. Joshi', 'Mathematics', '66000.00'),
+  ('MG606', 'Prof. Management', 'Management', '50000.00'),
+  ('MG607', 'Prof. Vicky', 'Management', '59000.00'),
+  ('P123', 'Prof. Patel', 'Computer Science', '80000.00'),
+  ('P124', 'Prof. Sharma', 'Computer Science', '80000.00'),
+  ('PH101', 'Prof. Physics', 'Physics', '55000.00'),
+  ('PH102', 'Prof. Kirti', 'Physics', '55000.00'),
+  ('SP707', 'Coach Sports', 'Sports', '30000.00'),
+  ('SP708', 'Medical Examinar', 'Sports', '35000.00');
 
 --
 -- Table structure for table `time_slot`
@@ -407,7 +198,264 @@ VALUES
   (7, 'Monday', '11:00:00', '12:00:00'),
   (8, 'Wednesday', '13:00:00', '14:00:00'),
   (9, 'Friday', '09:00:00', '10:00:00'),
-  (10, 'Tuesday', '11:00:00', '12:00:00');
+  (10, 'Tuesday', '11:00:00', '12:00:00').
+  (11, 'Monday', '01:30:00', '02:30:00'),
+  (12, 'Tuesday', '01:30:00', '02:30:00');
+
+--
+-- Table structure for table `section`
+--
+
+CREATE TABLE `section` (
+  `course_id` varchar(10) NOT NULL,
+  `sec_id` int(11) NOT NULL,
+  `semester` varchar(20) NOT NULL,
+  `year` int(11) NOT NULL,
+  `building` varchar(20) DEFAULT NULL,
+  `room_number` int(11) DEFAULT NULL,
+  `time_slot_id` int(11) DEFAULT NULL
+);
+
+--
+-- Indexes for table `section`
+--
+
+ALTER TABLE `section`
+  ADD PRIMARY KEY (`course_id`,`sec_id`,`semester`,`year`);
+
+--
+-- Dumping data for table `section`
+--
+
+INSERT INTO `section` 
+  (`course_id`, `sec_id`, `semester`, `year`, `building`, `room_number`, `time_slot_id`) 
+VALUES
+  ('BIO101', 1, 'Fall', 2023, 'Science Building', 202, 6),
+  ('BIO102', 1, 'Spring', 2024, 'Science Building', 202, 6),
+  ('CHEM101', 1, 'Fall', 2023, 'Science Building', 202, 5),
+  ('CHEM102', 1, 'Spring', 2024, 'Science Building', 202, 5),
+  ('CS101', 3, 'Fall', 2023, 'Main Building', 101, 1),
+  ('CS102', 3, 'Spring', 2024, 'Main Building', 101, 11),
+  ('EE202', 2, 'Spring', 2024, 'Engineering Building', 303, 2),
+  ('EE203', 2, 'Spring', 2024, 'Engineering Building', 303, 2),
+  ('ENG101', 6, 'Fall', 2023, 'Arts Building', 211, 8),
+  ('HIST201', 7, 'Fall', 2023, 'Arts Building', 211, 7),
+  ('MATH301', 1, 'Fall', 2023, 'Main Building', 101, 3),
+  ('MATH302', 1, 'Spring', 2024, 'Main Building', 101, 3),
+  ('MGT301', 5, 'Fall', 2023, 'Admin Building', 102, 9),
+  ('MGT302', 5, 'Spring', 2024, 'Admin Building', 102, 9),
+  ('PHYS201', 1, 'Fall', 2023, 'Science Building', 202, 4),
+  ('PHYS202', 1, 'Spring', 2024, 'Science Building', 202, 12),
+  ('SPORT101', 4, 'Fall', 2023, 'Sports Complex', 105, 10),
+  ('SPORT102', 4, 'Spring', 2024, 'Sports Complex', 105, 10);
+
+--
+-- Table structure for table `teaches`
+--
+
+CREATE TABLE `teaches` (
+  `ID` varchar(10) NOT NULL,
+  `course_id` varchar(10) NOT NULL,
+  `sec_id` int(11) NOT NULL,
+  `semester` varchar(20) NOT NULL,
+  `year` int(11) NOT NULL
+);
+
+--
+-- Indexes for table `teaches`
+--
+
+ALTER TABLE `teaches`
+  ADD PRIMARY KEY (`ID`,`course_id`,`sec_id`,`semester`,`year`),
+  ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
+
+--
+-- Dumping data for table `teaches`
+--
+
+INSERT INTO `teaches` 
+  (`ID`, `course_id`, `sec_id`, `semester`, `year`) 
+VALUES
+  ('BI303', 'BIO101', 1, 'Fall', 2023),
+  ('BI303', 'BIO102', 1, 'Spring', 2024),
+  ('CH202', 'CHEM101', 1, 'Fall', 2023),
+  ('CH202', 'CHEM102', 1, 'Spring', 2024),
+  ('E456', 'EE202', 2, 'Spring', 2024),
+  ('E456', 'EE203', 2, 'Spring', 2024),
+  ('EN505', 'ENG101', 6, 'Fall', 2023),
+  ('HI404', 'HIST201', 7, 'Fall', 2023),
+  ('M789', 'MATH301', 1, 'Fall', 2023),
+  ('M789', 'MATH302', 1, 'Spring', 2024),
+  ('MG606', 'MGT301', 5, 'Fall', 2023),
+  ('MG606', 'MGT302', 5, 'Spring', 2024),
+  ('P123', 'CS101', 3, 'Fall', 2023),
+  ('P124', 'CS102', 3, 'Spring', 2024),
+  ('PH101', 'PHYS201', 1, 'Fall', 2023),
+  ('PH102', 'PHYS202', 1, 'Spring', 2024),
+  ('SP707', 'SPORT101', 4, 'Fall', 2023),
+  ('SP707', 'SPORT102', 4, 'Spring', 2024);
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `ID` varchar(10) NOT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `dept_name` varchar(50) DEFAULT NULL,
+  `tot_cred` int(11) DEFAULT NULL
+);
+
+--
+-- Indexes for table `student`
+--
+
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `dept_name` (`dept_name`);
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` 
+  (`ID`, `name`, `dept_name`, `tot_cred`) 
+VALUES
+  ('S101', 'David', 'Physics', 125),
+  ('S123', 'Alice', 'Computer Science', 160),
+  ('S202', 'Emily', 'Chemistry', 135),
+  ('S303', 'Frank', 'Biology', 120),
+  ('S404', 'Grace', 'History', 130),
+  ('S456', 'Bob', 'Electrical Engineering', 145),
+  ('S505', 'Henry', 'English', 125),
+  ('S606', 'Ivy', 'Management', 135),
+  ('S707', 'Jack', 'Sports', 120),
+  ('S789', 'Charlie', 'Mathematics', 130);
+
+--
+-- Table structure for table `takes`
+--
+
+CREATE TABLE `takes` (
+  `ID` varchar(10) NOT NULL,
+  `course_id` varchar(10) NOT NULL,
+  `sec_id` int(11) NOT NULL,
+  `semester` varchar(20) NOT NULL,
+  `year` int(11) NOT NULL,
+  `grade` varchar(2) DEFAULT NULL
+);
+
+--
+-- Indexes for table `takes`
+--
+
+ALTER TABLE `takes`
+  ADD PRIMARY KEY (`ID`,`course_id`,`sec_id`,`semester`,`year`),
+  ADD KEY `course_id` (`course_id`,`sec_id`,`semester`,`year`);
+
+--
+-- Dumping data for table `takes`
+--
+
+INSERT INTO `takes` 
+  (`ID`, `course_id`, `sec_id`, `semester`, `year`, `grade`) 
+VALUES
+  ('S101', 'CHEM102', 1, 'Spring', 2024, 'A-'),
+  ('S101', 'ENG101', 6, 'Fall', 2023, 'A+'),
+  ('S101', 'MATH302', 1, 'Spring', 2024, 'A+'),
+  ('S101', 'PHYS201', 1, 'Fall', 2023, 'B+'),
+  ('S101', 'PHYS202', 1, 'Spring', 2024, 'A+'),
+  ('S123', 'CS101', 3, 'Fall', 2023, 'A+'),
+  ('S202', 'CHEM101', 1, 'Fall', 2023, 'C+'),
+  ('S303', 'BIO101', 1, 'Fall', 2023, 'A+'),
+  ('S404', 'HIST201', 7, 'Fall', 2023, 'B-'),
+  ('S456', 'EE202', 2, 'Spring', 2024, 'B+'),
+  ('S505', 'ENG101', 6, 'Fall', 2023, 'A+'),
+  ('S606', 'MGT301', 5, 'Fall', 2023, 'B+'),
+  ('S707', 'SPORT101', 4, 'Fall', 2023, 'B+'),
+  ('S789', 'MATH301', 1, 'Fall', 2023, 'A-');
+
+--
+-- Table structure for table `advisor`
+--
+
+CREATE TABLE `advisor` (
+  `sID` varchar(10) NOT NULL,
+  `iID` varchar(10) NOT NULL
+);
+
+--
+-- Indexes for table `advisor`
+--
+
+ALTER TABLE `advisor`
+  ADD PRIMARY KEY (`sID`,`iID`),
+  ADD KEY `iID` (`iID`);
+
+--
+-- Dumping data for table `advisor`
+--
+
+INSERT INTO `advisor` 
+  (`sID`, `iID`) 
+VALUES
+  ('S101', 'CH204'),
+  ('S101', 'EN505'),
+  ('S101', 'M790'),
+  ('S101', 'PH101'),
+  ('S101', 'PH102'),
+  ('S123', 'P123'),
+  ('S202', 'CH202'),
+  ('S303', 'BI303'),
+  ('S404', 'HI404'),
+  ('S456', 'E456'),
+  ('S505', 'EN505'),
+  ('S606', 'MG606'),
+  ('S707', 'SP707'),
+  ('S789', 'M789');
+
+--
+-- Table structure for table `prereq`
+--
+
+CREATE TABLE `prereq` (
+  `course_id` varchar(10) NOT NULL,
+  `prereq_id` varchar(10) NOT NULL
+);
+
+--
+-- Indexes for table `prereq`
+--
+
+ALTER TABLE `prereq`
+  ADD PRIMARY KEY (`course_id`,`prereq_id`),
+  ADD KEY `prereq_id` (`prereq_id`);
+
+--
+-- Dumping data for table `prereq`
+--
+
+INSERT INTO `prereq` 
+  (`course_id`, `prereq_id`) 
+VALUES
+  ('BIO101', 'BIO100'),
+  ('BIO102', 'BIO110'),
+  ('CHEM101', 'CHEM100'),
+  ('CHEM102', 'CHEM110'),
+  ('CS101', 'CS201'),
+  ('CS102', 'CS202'),
+  ('EE202', 'CS101'),
+  ('EE203', 'EE201'),
+  ('ENG101', 'ENG100'),
+  ('HIST201', 'HIST101'),
+  ('MATH301', 'MATH201'),
+  ('MATH302', 'MATH301'),
+  ('MGT301', 'MGT201'),
+  ('MGT302', 'MGT301'),
+  ('PHYS201', 'PHYS101'),
+  ('PHYS202', 'PHYS102'),
+  ('SPORT101', 'SPORT100'),
+  ('SPORT102', 'SPORT101');
 
 --
 -- Table structure for table `grade_points`
@@ -432,14 +480,12 @@ VALUES
   ('C+','2.75');
 
 --
--- Constraints for table `advisor`
+-- Constraints for table `department`
 --
 
-ALTER TABLE `advisor`
-  ADD CONSTRAINT `advisor_ibfk_1` FOREIGN KEY (`sID`) 
-  REFERENCES `student` (`ID`),
-  ADD CONSTRAINT `advisor_ibfk_2` FOREIGN KEY (`iID`) 
-  REFERENCES `instructor` (`ID`);
+ALTER TABLE `department`
+  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`building`) 
+  REFERENCES `classroom` (`building`);
 
 --
 -- Constraints for table `course`
@@ -450,28 +496,12 @@ ALTER TABLE `course`
   REFERENCES `department` (`dept_name`);
 
 --
--- Constraints for table `department`
---
-
-ALTER TABLE `department`
-  ADD CONSTRAINT `department_ibfk_1` FOREIGN KEY (`building`) 
-  REFERENCES `classroom` (`building`);
-
---
 -- Constraints for table `instructor`
 --
 
 ALTER TABLE `instructor`
   ADD CONSTRAINT `instructor_ibfk_1` FOREIGN KEY (`dept_name`) 
   REFERENCES `department` (`dept_name`);
-
---
--- Constraints for table `prereq`
---
-
-ALTER TABLE `prereq`
-  ADD CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) 
-  REFERENCES `course` (`course_id`);
 
 --
 -- Constraints for table `section`
@@ -484,6 +514,16 @@ ALTER TABLE `section`
   REFERENCES `classroom` (`building`, `room_number`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `section_ibfk_3` FOREIGN KEY (`time_slot_id`) 
   REFERENCES `time_slot` (`time_slot_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `teaches`
+--
+
+ALTER TABLE `teaches`
+  ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`ID`) 
+  REFERENCES `instructor` (`ID`),
+  ADD CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
+  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
 
 --
 -- Constraints for table `student`
@@ -504,14 +544,22 @@ ALTER TABLE `takes`
   REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
 
 --
--- Constraints for table `teaches`
+-- Constraints for table `advisor`
 --
 
-ALTER TABLE `teaches`
-  ADD CONSTRAINT `teaches_ibfk_1` FOREIGN KEY (`ID`) 
-  REFERENCES `instructor` (`ID`),
-  ADD CONSTRAINT `teaches_ibfk_2` FOREIGN KEY (`course_id`,`sec_id`,`semester`,`year`) 
-  REFERENCES `section` (`course_id`, `sec_id`, `semester`, `year`);
+ALTER TABLE `advisor`
+  ADD CONSTRAINT `advisor_ibfk_1` FOREIGN KEY (`sID`) 
+  REFERENCES `student` (`ID`),
+  ADD CONSTRAINT `advisor_ibfk_2` FOREIGN KEY (`iID`) 
+  REFERENCES `instructor` (`ID`);
+
+--
+-- Constraints for table `prereq`
+--
+
+ALTER TABLE `prereq`
+  ADD CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) 
+  REFERENCES `course` (`course_id`);
 
 Q-2.1 'Find the total grade points earned by the student with ID 'S101', across all courses taken by the student ?'
 
@@ -523,10 +571,11 @@ Q-2.2 'Find the grade point average (GPA) for the above student, that is, the to
 
 SELECT std.ID,
        std.name,
-       CASE
-           WHEN SUM(crs.credits) = 0 THEN 0
+       ROUND((CASE
+           WHEN SUM(crs.credits) = 0 
+            THEN 0
            ELSE SUM(gp.points * crs.credits) / SUM(crs.credits)
-       END AS GP
+       END),2) AS GP
 FROM student std
   LEFT JOIN takes tk ON std.ID = tk.ID
   LEFT JOIN grade_points gp ON tk.grade = gp.grade
@@ -599,11 +648,11 @@ SELECT sec_id,`year`, COUNT(ID) AS enrollment
   WHERE semester = 'Fall' AND year = 2023
   GROUP BY sec_id;
 
-Q-2.12 'Find the maximum enrollment, across all sections, in Fall 2023 ?'
+Q-2.12 'Find the total enrollment, across all sections, in Fall 2023 ?'
 
-SELECT MAX(enrollment_count) AS max_enrollment
+SELECT MAX(enrollment_count) AS total_enrollment
 FROM (
-  SELECT COUNT(s_id) AS enrollment_count
+  SELECT COUNT(id) AS enrollment_count
   FROM takes
   WHERE semester = 'Fall' AND year = 2023
   GROUP BY sec_id
