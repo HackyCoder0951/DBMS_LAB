@@ -575,13 +575,23 @@ SELECT std.ID,
            WHEN SUM(crs.credits) = 0 
             THEN 0
            ELSE SUM(gp.points * crs.credits) / SUM(crs.credits)
-       END),2) AS GP
+       END),2) AS GPA
 FROM student std
   LEFT JOIN takes tk ON std.ID = tk.ID
   LEFT JOIN grade_points gp ON tk.grade = gp.grade
   LEFT JOIN course crs ON tk.course_id = crs.course_id
 GROUP BY std.ID, std.name
 HAVING std.ID = 'S101';
+
+SELECT
+    cgpa.student_id,
+    student.name,
+    cgpa.cumulative_gpa
+FROM
+    student_cumulative_gpa cgpa
+JOIN student ON student.ID = cgpa.student_id
+WHERE
+    student_id = 'S101'
 
 Q-2.3 'Find the ID and the grade-point average of each student ?'
 
@@ -675,3 +685,146 @@ Q-2.14 'Increase the salary of each instructor in the Comp. Sci. department by 1
 UPDATE `instructor` 
   SET `salary`= Salary * 1.1
     WHERE dept_name = 'Computer Science';
+
+-- Additional Questions requirements
+
+-- creating views
+
+
+CREATE ALGORITHM = UNDEFINED DEFINER = `root` @`localhost` SQL SECURITY DEFINER VIEW `student_gpa_sem` AS
+SELECT `t`.`ID` AS `student_id`,
+  `t`.`semester` AS `semester`,
+  `t`.`year` AS `year`,
+  ROUND(coalesce(
+    sum(`g`.`points` * `c`.`credits`) / nullif(sum(`c`.`credits`), 0),
+    0
+  ),2) AS `SGPA`
+FROM (
+    (
+      `takes` `t`
+      join `grade_points` `g` on(`t`.`grade` = `g`.`grade`)
+    )
+    join `course` `c` on(`t`.`course_id` = `c`.`course_id`)
+  )
+GROUP BY `t`.`ID`,
+  `t`.`semester`,
+  `t`.`year`;
+
+
+CREATE ALGORITHM = UNDEFINED DEFINER = `root`@`localhost` SQL SECURITY DEFINER VIEW `student_gpa_annual` AS
+SELECT 
+  `t`.`ID` AS `student_id`,
+  ROUND(
+    COALESCE(
+      SUM(`g`.`points` * `c`.`credits`) / NULLIF(SUM(`c`.`credits`), 0),
+      0
+    ), 2
+  ) AS `GPA`
+FROM 
+  `takes` `t`
+  JOIN `grade_points` `g` ON `t`.`grade` = `g`.`grade`
+  JOIN `course` `c` ON `t`.`course_id` = `c`.`course_id`
+GROUP BY 
+  `t`.`ID`;
+
+
+-- Trigger Requirements
+
+DELIMITER $$
+
+CREATE TRIGGER update_tot_cred
+AFTER INSERT ON takes
+FOR EACH ROW
+BEGIN
+    UPDATE student s
+    SET tot_cred = (
+        SELECT COALESCE(SUM(c.credits), 0)
+        FROM takes t
+        JOIN course c ON t.course_id = c.course_id
+        WHERE t.id = s.id
+    )
+    WHERE s.id = NEW.id;
+END$$
+
+  DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER update_tot_cred_after_update
+AFTER UPDATE ON takes
+FOR EACH ROW
+BEGIN
+    UPDATE student s
+    SET tot_cred = (
+        SELECT COALESCE(SUM(c.credits), 0)
+        FROM takes t
+        JOIN course c ON t.course_id = c.course_id
+        WHERE t.id = s.id
+    )
+    WHERE s.id = NEW.id;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER update_tot_cred_after_delete
+AFTER DELETE ON takes
+FOR EACH ROW
+BEGIN
+    UPDATE student s
+    SET tot_cred = (
+        SELECT COALESCE(SUM(c.credits), 0)
+        FROM takes t
+        JOIN course c ON t.course_id = c.course_id
+        WHERE t.id = OLD.id
+    )
+    WHERE s.id = OLD.id;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER recalculate_tot_cred_after_course_update
+AFTER UPDATE ON course
+FOR EACH ROW
+BEGIN
+    UPDATE student
+    SET tot_cred = (
+        SELECT COALESCE(SUM(c.credits), 0)
+        FROM takes t
+        JOIN course c ON t.course_id = c.course_id
+        WHERE t.ID = (
+            SELECT ID FROM takes WHERE course_id = NEW.course_id LIMIT 1
+        )
+    )
+    WHERE ID IN (
+        SELECT ID FROM takes WHERE course_id = NEW.course_id
+    );
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER recalculate_tot_cred_after_course_update
+AFTER UPDATE ON course
+FOR EACH ROW
+BEGIN
+    UPDATE student
+    SET tot_cred = (
+        SELECT COALESCE(SUM(c.credits), 0)
+        FROM takes t
+        JOIN course c ON t.course_id = c.course_id
+        WHERE t.ID = (
+            SELECT ID FROM takes WHERE course_id = NEW.course_id LIMIT 1
+        )
+    )
+    WHERE ID IN (
+        SELECT ID FROM takes WHERE course_id = NEW.course_id
+    );
+END$$
+
+DELIMITER ;
