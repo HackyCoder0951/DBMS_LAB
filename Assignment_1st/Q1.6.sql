@@ -4,7 +4,7 @@
 
 CREATE DATABASE mca_assign6;
 
---
+--o
 -- Table structure for table `company`
 --
 
@@ -81,8 +81,7 @@ CREATE TABLE `manages` (
 --
 
 ALTER TABLE `manages`
-  ADD PRIMARY KEY (`emp_id`,`manager_id`),
-  ADD KEY `manager_id` (`manager_id`);
+  ADD PRIMARY KEY (`emp_id`,`manager_id`);
 
 --
 -- Dumping data for table `manages`
