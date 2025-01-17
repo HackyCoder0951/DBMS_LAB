@@ -1,10 +1,10 @@
 -- Create Database 'mca_assign2.1'
 
-CREATE Database `mca_assign2.1`
+CREATE Database `mca_assign2.1`;
 
 -- Select the database 'mca_assign2.1'
 
-use `mca_assign2.1`
+use `mca_assign2.1`;
 
 -- Create Table 'Students'
 
