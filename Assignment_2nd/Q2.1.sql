@@ -1,3 +1,13 @@
+-- Create Database 'mca_assign2.1'
+
+CREATE Database `mca_assign2.1`
+
+-- Select the database 'mca_assign2.1'
+
+use `mca_assign2.1`
+
+-- Create Table 'Students'
+
 CREATE TABLE students (
     StudentID int(5) NOT NULL,
     Name varchar(50) NOT NULL,
@@ -7,6 +17,8 @@ CREATE TABLE students (
     PRIMARY KEY(StudentID),
     INDEX(Department)
 );
+
+-- Insert Data into 'students' table
 
 INSERT INTO students (StudentID, Name, Age, Department, GPA) VALUES
 (101, 'Alice Johnson', 20, 'ComputerSci', 3.8),
@@ -20,6 +32,7 @@ INSERT INTO students (StudentID, Name, Age, Department, GPA) VALUES
 (109, 'Isabel Turner', 22, 'Physics', 3.1),
 (110, 'Jack Davis', 24, 'Mathematics', 3.9);
 
+-- Create table 'Courses'
 
 CREATE TABLE courses (
     CourseID int(5) NOT NULL,
@@ -29,6 +42,8 @@ CREATE TABLE courses (
     PRIMARY KEY(CourseID),
     INDEX(Department)
 );
+
+-- Insert Data into 'courses' table
 
 INSERT INTO courses (CourseID, CourseName, Department, Credits) VALUES
 (201, 'Database Systems', 'ComputerSci', 4),
@@ -41,6 +56,8 @@ INSERT INTO courses (CourseID, CourseName, Department, Credits) VALUES
 (208, 'Topology', 'Mathematics', 3),
 (209, 'Astrophysics', 'Physics', 4),
 (210, 'Machine Learning', 'ComputerSci', 5);
+
+-- Add Foreign Key to 'students' table
 
 ALTER TABLE `students`
     ADD CONSTRAINT `fk_Department` 
