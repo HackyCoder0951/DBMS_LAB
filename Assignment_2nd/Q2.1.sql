@@ -57,7 +57,7 @@ INSERT INTO courses (CourseID, CourseName, Department, Credits) VALUES
 (209, 'Astrophysics', 'Physics', 4),
 (210, 'Machine Learning', 'ComputerSci', 5);
 
--- Adding Foreign & Index Key to 'students' Table
+-- Adding Foreign Key to 'students' Table
 
 ALTER TABLE `students`
     ADD CONSTRAINT `fk_Department` 

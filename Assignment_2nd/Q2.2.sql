@@ -61,7 +61,7 @@ VALUES
 (209, 'Data Analytics', 'Finance', 950000),
 (210, 'AI Research', 'IT', 2000000);
 
--- Adding Foreign & Index Key to 'Employees' Table
+-- Adding Foreign Key to 'Employees' Table
 
 ALTER TABLE `employees`
     ADD CONSTRAINT `fk_Department` 
