@@ -55,11 +55,11 @@ CREATE TABLE Orders (
 INSERT INTO Orders 
     (OrderID, CustomerID, OrderDate, TotalAmount) 
 VALUES
-    (1, 1, '2023-11-15', 1499.97),
-    (2, 2, '2023-12-01', 739.98),
-    (3, 3, '2023-12-20', 49.99),
-    (4, 4, '2024-01-15', 399.98),
-    (5, 5, '2024-01-20', 1249.96);
+    (1, 1, '2024-06-15', 1499.97),
+    (2, 2, '2024-07-01', 739.98),
+    (3, 3, '2024-09-20', 49.99),
+    (4, 4, '2024-10-15', 399.98),
+    (5, 5, '2024-11-20', 1249.96);
 
 -- Create Table 'OrderDetails'
 CREATE TABLE OrderDetails (
@@ -100,12 +100,97 @@ ALTER TABLE OrderDetails
         REFERENCES Products (ProductID)
         ON DELETE CASCADE ON UPDATE CASCADE;
 
-'q4.1 - Write an SQL query to list all producst purchased by customers who registered in the last six months. ?'
+'q4.1 - Write an SQL query to list all products purchased by customers who registered in the last six months. ?'
+
+SELECT
+    ord.ProductID,
+    c.CustomerID
+FROM
+    orderdetails ord
+JOIN products p ON
+    p.ProductID = ORD.ProductID
+JOIN orders o ON
+    o.OrderID = ORD.OrderID
+JOIN customers c ON
+    c.CustomerID = o.CustomerID
+WHERE
+    o.OrderDate > DATE_SUB(CURDATE(), INTERVAL 6 MONTH);
 
 'q4.2 - Write an SQL query to find the total amount spent by each customer. ?'
 
+SELECT 
+    c.CustomerID, 
+    c.Name, 
+    SUM(o.TotalAmount) AS TotalSpent
+FROM 
+    Customers c
+JOIN 
+    Orders o ON c.CustomerID = o.CustomerID
+GROUP BY 
+    c.CustomerID, 
+    c.Name
+ORDER BY 
+    TotalSpent DESC;
+
 'q4.3 - Write an SQL query yo list products that have never been ordered. ?'
+
+-- Query 1 
+
+SELECT
+    p.ProductID
+FROM
+    products p
+LEFT JOIN orderdetails ORD ON
+    p.ProductID = ORD.ProductID
+WHERE
+    ORD.ProductID IS NULL
+
+-- Query 2 
+
+SELECT
+    p.ProductID
+FROM
+    products p
+WHERE
+    p.ProductID IN(
+    SELECT
+        p.ProductID
+    FROM
+        products
+    LEFT JOIN orderdetails ORD ON
+        p.ProductID = ORD.ProductID
+    WHERE
+        ORD.ProductID IS NULL
+);
 
 'q4.4 - Write an SQL query to display the top 5 product with the hightest sales (by quantity). ?'
 
-'q4.5 - Write an SQL query to list customers who have plaes orders totaling more than $1,000. ?'
+SELECT
+    p.ProductID,
+    p.ProductName,
+    SUM(ord.Quantity) AS TotalQuantitySold
+FROM
+    Products p
+JOIN OrderDetails ord ON
+    p.ProductID = ord.ProductID
+GROUP BY
+    p.ProductID,
+    p.ProductName
+ORDER BY
+    TotalQuantitySold DESC
+LIMIT 5;
+
+'q4.5 - Write an SQL query to list customers who have place orders totaling more than $1,000. ?'
+
+SELECT DISTINCT
+    (c.CustomerID),
+    c.Name,
+    o.TotalAmount
+FROM
+    customers c
+JOIN orders o ON
+    o.CustomerID = c.CustomerID
+JOIN orderdetails ORD ON
+    ORD.OrderID = o.OrderID
+WHERE
+    o.TotalAmount > 1000
