@@ -97,3 +97,73 @@ ALTER TABLE borrowrecords
         REFERENCES books (BookID) 
         ON DELETE CASCADE ON UPDATE CASCADE;
 
+'q3.1 - Write an SQL query to list all books borrowed by members who joined after january 1,2022 ?'
+
+SELECT b.BookID,
+    b.Title
+FROM books b
+    JOIN borrowrecords br 
+        ON br.BookID = b.BookID
+    JOIN members m 
+        ON m.MemberID = br.MemberID
+WHERE m.JoinDate > '2022-01-01'
+
+'q3.2 - Write an SQL query to find the number of books borrowed by each member ?'
+
+SELECT 
+    m.MemberID, 
+    m.Name, 
+    COUNT(br.BookID) AS TotalBooksBorrowed
+FROM 
+    members m
+LEFT JOIN 
+    borrowrecords br ON m.MemberID = br.MemberID
+GROUP BY 
+    m.MemberID, m.Name
+ORDER BY 
+    TotalBooksBorrowed DESC;
+
+'q3.3 - Write an SQL query to find the most borrowed book and it count ?'
+
+SELECT b.Title,
+    COUNT(br.BookID) AS TotalBooksBorrowed
+FROM 
+    books b
+LEFT JOIN 
+    borrowrecords br ON b.BookID = br.BookID
+GROUP BY 
+    b.BookID
+ORDER BY 
+    TotalBooksBorrowed DESC;
+
+'q3.4 - Write an SQL query to list all members who have borrowed books by a specific author (e.g.,"J.K.Rowling") ?'
+
+SELECT
+    m.MemberID,
+    m.Name,
+    b.BookID,
+    b.Author
+FROM
+    members m
+JOIN borrowrecords br ON
+    br.MemberID = m.MemberID
+JOIN books b ON
+    b.BookID = br.BookID
+WHERE
+    b.Author = 'F. Scott Fitzgerald'
+
+'q3.5 - Write an SQL query to display the names and emails of members who borrowed books in the last month ?'
+
+SELECT
+    m.MemberID,
+    m.Name,
+	m.Email,
+    br.BorrowDate
+FROM
+    members m
+JOIN borrowrecords br ON
+    br.MemberID = m.MemberID
+JOIN books b ON
+    b.BookID = br.BookID
+WHERE 
+	br.BorrowDate > DATE_SUB(CURDATE(), INTERVAL 2 MONTH);
