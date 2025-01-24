@@ -700,7 +700,7 @@ SELECT `t`.`ID` AS `student_id`,
     0
   ),2) AS `SGPA`
 FROM (
-    (
+    ( 
       `takes` `t`
       join `grade_points` `g` on(`t`.`grade` = `g`.`grade`)
     )

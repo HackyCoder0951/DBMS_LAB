@@ -189,12 +189,20 @@ ALTER TABLE `participated`
 
 Q-5.1 'Find the total number of people who owned cars that were involved in accidents in 2017 ?'
 
-SELECT COUNT(driver_id) AS 'Total Number of People'
+SELECT COUNT(driver_id) AS 'Total Number of People',
+
   FROM ((`participated` 
-    LEFT JOIN `owns` 
-      USING (`driver_id`)) 
+    LEFT JOIN `owns` o
+      USING (`o.driver_id`)) 
     LEFT JOIN `accident` 
       USING(`report_number`))
+  WHERE `Year` = 2017;
+
+SELECT o.driver_id AS 'Total Number of People',pr.name
+  FROM participated p
+    LEFT JOIN `owns` o ON o.driver_id = p.driver_id 
+    LEFT JOIN `accident` a ON a.report_number = p.report_number
+    LEFT JOIN person pr ON pr.driver_id = p.driver_id
   WHERE `Year` = 2017;
 
 Q-5.2 'Delete all year-2010 cars belonging to the person whose ID is 12345 ?'
