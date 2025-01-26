@@ -202,7 +202,7 @@ WHERE city IN (
 Q-6.6 'Find the name of the company that has the most employees (or companies, in the case where there is a tie for the most) ?'
 
 SELECT company_name,
-  COUNT(emp_id) AS num_of_employees
+  COUNT(emp_id) AS 'Num of Employees'
 FROM works
 GROUP BY company_name
 HAVING COUNT(emp_id) = (
