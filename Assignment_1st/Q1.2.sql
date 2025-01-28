@@ -561,131 +561,6 @@ ALTER TABLE `prereq`
   ADD CONSTRAINT `prereq_ibfk_1` FOREIGN KEY (`course_id`) 
   REFERENCES `course` (`course_id`);
 
-Q-2.1 'Find the total grade points earned by the student with ID 'S101', across all courses taken by the student ?'
-
-SELECT ID,tot_cred AS Total_GP 
-  FROM `student` 
-  WHERE ID = 'S101';
-
-Q-2.2 'Find the grade point average (GPA) for the above student, that is, the total grade points divided by the total credits for the associated courses ?'
-
-SELECT std.ID,
-       std.name,
-       ROUND((CASE
-           WHEN SUM(crs.credits) = 0 
-            THEN 0
-           ELSE SUM(gp.points * crs.credits) / SUM(crs.credits)
-       END),2) AS GPA
-FROM student std
-  LEFT JOIN takes tk ON std.ID = tk.ID
-  LEFT JOIN grade_points gp ON tk.grade = gp.grade
-  LEFT JOIN course crs ON tk.course_id = crs.course_id
-GROUP BY std.ID, std.name
-HAVING std.ID = 'S101';
-
-SELECT
-    cgpa.student_id,
-    student.name,
-    cgpa.cumulative_gpa
-FROM
-    student_cumulative_gpa cgpa
-JOIN student ON student.ID = cgpa.student_id
-WHERE
-    student_id = 'S101'
-
-Q-2.3 'Find the ID and the grade-point average of each student ?'
-
-SELECT ID, AVG(points) AS 'Average GPA'
-  FROM `takes` 
-    JOIN grade_points AS GP ON takes.grade = GP.grade
-  GROUP BY ID;
-
-Q-2.4 'Increase the salary of instructor in the Comp. Sci. department where salary is less then 5000 rs by 10% ?'
-
-UPDATE `instructor` 
-  SET `salary`= (salary + (salary * 0.1))
-  WHERE dept_name = 'Computer Science' AND salary < 5000;
-
-Q-2.5 'Delete all courses that have never been offered (i.e., do not occur in the section relation) ?'
-
-DELETE FROM course
-WHERE course.course_id IN (
-  SELECT course.course_id FROM course 
-  LEFT JOIN section ON course.course_id = section.course_id 
-  WHERE section.course_id IS NULL
-);
-
-Q-2.6 'Insert every student whose total credit attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
-
-INSERT INTO `instructor`(`ID`, `name`, `dept_name`, `salary`)
-  SELECT `ID`, `name`, `dept_name`,'10000'
-  FROM `student`
-  WHERE tot_cred > 100;
-
-Q-2.7 'Find the titles of courses in the Comp. Sci. department that have 3 credits ?'
-
-SELECT title,credits 
-  FROM course
-  WHERE dept_name = 'Computer Science' AND credits = 3;
-
-Q-2.8 'Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result ?'
-
-SELECT student.ID AS Std_ID, 
-       student.Name AS Student_Name, 
-       instructor.Name AS Instructor_Name 
-  FROM student 
-    LEFT JOIN instructor 
-    ON student.dept_name = instructor.dept_name
-    WHERE instructor.name = 'Prof. Biology';
-
-Q-2.9 'Find the highest salary of any instructor ?'
-
-SELECT Format(MAX(salary),'N3') AS "Highest Salary" FROM instructor;
-
-Q-2.10 'Find all instructors earning the highest salary (there may be more than one with the same salary) ?'
-
-SELECT name,salary 
-  FROM instructor 
-  WHERE salary = (
-    SELECT MAX(salary) 
-    FROM instructor
-  );
-
-Q-2.11 'Find the enrollment of each section that was offered in Fall 2023 ?'
-
-SELECT sec_id,`year`, COUNT(ID) AS enrollment
-  FROM takes
-  WHERE semester = 'Fall' AND year = 2023
-  GROUP BY sec_id;
-
-Q-2.12 'Find the total enrollment, across all sections, in Fall 2023 ?'
-
-SELECT MAX(enrollment_count) AS total_enrollment
-FROM (
-  SELECT COUNT(id) AS enrollment_count
-  FROM takes
-  WHERE semester = 'Fall' AND year = 2023
-  GROUP BY sec_id
-) AS section_enrollments;
-
-Q-2.13 'Find the sections that had the maximum enrollment in Fall 2023 ?'
-
-SELECT course_id, sec_id, semester, year, COUNT(ID) AS enrollment
-FROM takes
-WHERE semester = 'Fall' AND year = 2023
-GROUP BY course_id, sec_id, semester, year
-HAVING COUNT(ID) = (SELECT MAX(enrollment_count)
-  FROM (SELECT course_id, sec_id, semester, year, COUNT(ID) AS enrollment_count
-    FROM takes
-    WHERE semester = 'Fall' AND year = 2023
-    GROUP BY course_id, sec_id, semester, year) AS max_enrollment);
-
-Q-2.14 'Increase the salary of each instructor in the Comp. Sci. department by 10% ?'
-
-UPDATE `instructor` 
-  SET `salary`= Salary * 1.1
-    WHERE dept_name = 'Computer Science';
-
 -- Additional Questions requirements
 
 -- creating views
@@ -828,3 +703,129 @@ BEGIN
 END$$
 
 DELIMITER ;
+
+
+Q-2.1 'Find the total grade points earned by the student with ID 'S101', across all courses taken by the student ?'
+
+SELECT ID,tot_cred AS Total_GP 
+  FROM `student` 
+  WHERE ID = 'S101';
+
+Q-2.2 'Find the grade point average (GPA) for the above student, that is, the total grade points divided by the total credits for the associated courses ?'
+
+SELECT std.ID,
+       std.name,
+       ROUND((CASE
+           WHEN SUM(crs.credits) = 0 
+            THEN 0
+           ELSE SUM(gp.points * crs.credits) / SUM(crs.credits)
+       END),2) AS GPA
+FROM student std
+  LEFT JOIN takes tk ON std.ID = tk.ID
+  LEFT JOIN grade_points gp ON tk.grade = gp.grade
+  LEFT JOIN course crs ON tk.course_id = crs.course_id
+GROUP BY std.ID, std.name
+HAVING std.ID = 'S101';
+
+SELECT
+    cgpa.student_id,
+    student.name,
+    cgpa.cumulative_gpa
+FROM
+    student_cumulative_gpa cgpa
+JOIN student ON student.ID = cgpa.student_id
+WHERE
+    student_id = 'S101'
+
+Q-2.3 'Find the ID and the grade-point average of each student ?'
+
+SELECT ID, AVG(points) AS 'Average GPA'
+  FROM `takes` 
+    JOIN grade_points AS GP ON takes.grade = GP.grade
+  GROUP BY ID;
+
+Q-2.4 'Increase the salary of instructor in the Comp. Sci. department where salary is less then 5000 rs by 10% ?'
+
+UPDATE `instructor` 
+  SET `salary`= (salary + (salary * 0.1))
+  WHERE dept_name = 'Computer Science' AND salary < 5000;
+
+Q-2.5 'Delete all courses that have never been offered (i.e., do not occur in the section relation) ?'
+
+DELETE FROM course
+WHERE course.course_id IN (
+  SELECT course.course_id FROM course 
+  LEFT JOIN section ON course.course_id = section.course_id 
+  WHERE section.course_id IS NULL
+);
+
+Q-2.6 'Insert every student whose total credit attribute is greater than 100 as an instructor in the same department, with a salary of $10,000 ?'
+
+INSERT INTO `instructor`(`ID`, `name`, `dept_name`, `salary`)
+  SELECT `ID`, `name`, `dept_name`,'10000'
+  FROM `student`
+  WHERE tot_cred > 100;
+
+Q-2.7 'Find the titles of courses in the Comp. Sci. department that have 3 credits ?'
+
+SELECT title,credits 
+  FROM course
+  WHERE dept_name = 'Computer Science' AND credits = 3;
+
+Q-2.8 'Find the IDs of all students who were taught by an instructor named Einstein; make sure there are no duplicates in the result ?'
+
+SELECT student.ID AS Std_ID, 
+       student.Name AS Student_Name, 
+       instructor.Name AS Instructor_Name 
+  FROM student 
+    LEFT JOIN instructor 
+    ON student.dept_name = instructor.dept_name
+    WHERE instructor.name = 'Prof. Biology';
+
+Q-2.9 'Find the highest salary of any instructor ?'
+
+SELECT Format(MAX(salary),'N3') AS "Highest Salary" FROM instructor;
+
+Q-2.10 'Find all instructors earning the highest salary (there may be more than one with the same salary) ?'
+
+SELECT name,salary 
+  FROM instructor 
+  WHERE salary = (
+    SELECT MAX(salary) 
+    FROM instructor
+  );
+
+Q-2.11 'Find the enrollment of each section that was offered in Fall 2023 ?'
+
+SELECT sec_id,`year`, COUNT(ID) AS enrollment
+  FROM takes
+  WHERE semester = 'Fall' AND year = 2023
+  GROUP BY sec_id;
+
+Q-2.12 'Find the total enrollment, across all sections, in Fall 2023 ?'
+
+SELECT MAX(enrollment_count) AS total_enrollment
+FROM (
+  SELECT COUNT(id) AS enrollment_count
+  FROM takes
+  WHERE semester = 'Fall' AND year = 2023
+  GROUP BY sec_id
+) AS section_enrollments;
+
+Q-2.13 'Find the sections that had the maximum enrollment in Fall 2023 ?'
+
+SELECT course_id, sec_id, semester, year, COUNT(ID) AS enrollment
+FROM takes
+WHERE semester = 'Fall' AND year = 2023
+GROUP BY course_id, sec_id, semester, year
+HAVING COUNT(ID) = (SELECT MAX(enrollment_count)
+  FROM (SELECT course_id, sec_id, semester, year, COUNT(ID) AS enrollment_count
+    FROM takes
+    WHERE semester = 'Fall' AND year = 2023
+    GROUP BY course_id, sec_id, semester, year) AS max_enrollment);
+
+Q-2.14 'Increase the salary of each instructor in the Comp. Sci. department by 10% ?'
+
+UPDATE `instructor` 
+  SET `salary`= Salary * 1.1
+    WHERE dept_name = 'Computer Science';
