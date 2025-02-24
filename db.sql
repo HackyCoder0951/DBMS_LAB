@@ -1,34 +1,70 @@
-[24/02, 12:49 pm] Jignesh Ameta: CREATE TABLE Departments (
+CREATE TABLE Departments (
     department_id INT PRIMARY KEY,
-    department_name VARCHAR(255) NOT NULL,
-    hod_id INT
+    department_name VARCHAR(150) NOT NULL,
+    hod_id INT NOT NULL,
+    hod_name VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Students (
-    student_id INT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    dob DATE,
-    department_id INT,
-    email VARCHAR(255),
-    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+    std_id INT PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    dob DATE NOT NULL,
+    dep_id INT NOT NULL,
+    email VARCHAR(150),
+    FOREIGN KEY (dep_id) REFERENCES Departments(dep_id)
 );
 
 CREATE TABLE Courses (
-    course_id INT PRIMARY KEY,
-    course_name VARCHAR(255) NOT NULL,
-    department_id INT,
-    credits INT,
-    FOREIGN KEY (department_id) REFERENCES Departments(department_id)
+    cors_id INT PRIMARY KEY,
+    cors_name VARCHAR(255) NOT NULL,
+    dep_id INT NOT NULL,
+    credits INT NOT NULL,
+    FOREIGN KEY (dep_id) REFERENCES Departments(dep_id)
 );
 
 CREATE TABLE Enrollments (
     enrollment_id INT PRIMARY KEY,
-    student_id INT,
-    course_id INT,
-    grade VARCHAR(5),
-    FOREIGN KEY (student_id) REFERENCES Students(student_id),
-    FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+    std_id INT NOT NULL,
+    cors_id INT NOT NULL,
+    grade VARCHAR(5) NOT NULL,
+    FOREIGN KEY (std_id) REFERENCES Students(std_id),
+    FOREIGN KEY (cors_id) REFERENCES Courses(cors_id)
 );
+
+
+INSERT INTO Departments (dep_id, dep_name, hod_id, hod_name) VALUES
+(1, 'Computer Science', 1, 'Dr. John Smith'),
+(2, 'Electrical Engineering', 2, 'Dr. Alice Johnson'),
+(3, 'Mechanical Engineering', 3, 'Dr. Robert Williams'),
+(4, 'Civil Engineering', 4, 'Dr. Emily Davis'),
+(5, 'Biotechnology', 5, 'Dr. Mark Wilson'),
+(6, 'Mathematics', 6, 'Dr. Sarah Thompson');
+
+INSERT INTO Students (std_id, name, dob, dep_id, email) VALUES
+(101, 'Michael Brown', '2000-05-15', 1, 'michael.brown@student.edu'),
+(102, 'Emma Wilson', '1999-08-22', 2, 'emma.wilson@student.edu'),
+(103, 'Liam Johnson', '2001-03-10', 3, 'liam.johnson@student.edu'),
+(104, 'Olivia Martinez', '2000-11-30', 4, 'olivia.martinez@student.edu'),
+(105, 'William Anderson', '1998-07-05', 5, 'william.anderson@student.edu'),
+(106, 'Sophia Thomas', '1999-02-18', 6, 'sophia.thomas@student.edu');
+
+INSERT INTO Courses (cors_id, cors_name, dep_id, credits) VALUES
+(201, 'Data Structures', 1, 4),
+(202, 'Circuit Analysis', 2, 3),
+(203, 'Thermodynamics', 3, 4),
+(204, 'Structural Engineering', 4, 3),
+(205, 'Genetic Engineering', 5, 4),
+(206, 'Linear Algebra', 6, 3);
+
+INSERT INTO Enrollments (enrollment_id, std_id, cors_id, grade) VALUES
+(301, 101, 201, 'A'),
+(302, 102, 202, 'B+'),
+(303, 103, 203, 'A-'),
+(304, 104, 204, 'B'),
+(305, 105, 205, 'A'),
+(306, 106, 206, 'A-');
+
+
 [24/02, 12:49 pm] Jignesh Ameta: SELECT s.name AS student_name, d.department_name, c.course_name
 FROM Students s
 JOIN Departments d ON s.department_id = d.department_id
