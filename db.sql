@@ -133,3 +133,25 @@ WHERE e.grade = (
     FROM Enrollments e2
     WHERE e2.course_id = e.course_id
 );
+
+
+extra queris
+get departmet id of those courses whose credits is less then or equal to 2
+
+SELECT DISTINCT d.dep_id, d.dep_name,c.cors_id,c.credits
+FROM Courses c
+JOIN Departments d ON c.dep_id = d.dep_id
+WHERE c.credits <= 2;
+
+SELECT DISTINCT dep_id
+FROM Courses
+WHERE credits <= 2;
+
+students with hod names that earn 'A' credits in those courses have birth in febraury month
+
+SELECT s.name AS student_name, d.hod_name, e.grade, s.dob
+FROM Students s
+JOIN Enrollments e ON s.std_id = e.std_id
+JOIN Courses c ON e.cors_id = c.cors_id
+JOIN Departments d ON s.dep_id = d.dep_id
+WHERE e.grade = 'A' AND MONTH(s.dob) = 2;
